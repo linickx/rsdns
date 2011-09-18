@@ -73,4 +73,3 @@ function http_code_eval () {
 #Variables
 QUIET=0
 UKAUTH=0
- 
