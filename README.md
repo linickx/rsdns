@@ -2,6 +2,27 @@
 
 RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
 
+## rsdns-domain.sh
+
+RSDNS Domain, create and delete a domain from rackspace cloud DNS
+
+Options:
+
+*  -u username
+*  -a api key
+*  -d domain
+*  -e email address
+*  -t TTL
+*  -x Delete a domain
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:
+To create a record:  
+`./rsdns-domain.sh -u linickx -a 123456 -d www.linickx.com -e spam@linickx.com`  
+To delete a record:  
+`./rsdns-domain.sh -u linickx -a 123456 -d www.linickx.com -x` 
+
 ## rsdns-list.sh ##
 
 RSDNS List, lists all the domains for an account, or the records for a domain.
