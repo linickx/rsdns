@@ -38,7 +38,11 @@ function create_mx () {
       
      RC=`curl -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
       
-      echo $RC
+      #echo $RSPOST
+      
+      if [[ $QUIET -eq 0 ]]; then
+		echo $RC
+      fi
       
     fi
 }
