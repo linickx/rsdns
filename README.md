@@ -105,6 +105,27 @@ Below is an example for sending email to a server.
 `./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n host.linickx.com -D host.linickx.com -p 10`  
 To delete a record, use rsdns-did.sh
 
+## rsdns-txt.sh ##
+
+RSDNS TXT, create and delete TXT records within an existing domain.
+
+Options:
+
+*  -u username
+*  -a api key
+*  -d domain for the record
+*  -n name for the record
+*  -D data for the record
+*  -t TTL
+*  -x Delete a record
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:  
+TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
+`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D "include:aspmx.googlemail.com ~all"` 
+To delete a record, use rsdns-did.sh
+
 ---
 
 ### _Creditz_ ###
