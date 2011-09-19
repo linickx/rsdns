@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# rsdns-txt.sh - Used to create/delete TXT records hosted on rackspace cloud dns
+# rsdns-a.sh - Used to create/delete A records hosted on rackspace cloud dns
 #
 
 # load up our auth library
@@ -21,7 +21,7 @@ function usage () {
 
 
 function create_a () {
-# { "id" : "TXT-123", "type" : "TXT", "name" : "example.foo.com", "data" : "Some example text", "ttl" : 3600 }
+# { "id" : "A-123", "type" : "A", "name" : "example.foo.com", "data" : "123.456.789", "ttl" : 3600 }
 
   if [ -z $IP ]
     then
