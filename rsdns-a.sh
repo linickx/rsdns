@@ -44,6 +44,16 @@ function create_a () {
     fi
 }
 
+function delete_a () {
+
+  get_domain $NAME
+  
+  RECORDTYPE="A"
+
+  delete_record
+
+}
+
 #Get options from the command line.
 while getopts "u:a:n:i:t::hkqx" option
 do
@@ -94,7 +104,7 @@ fi
 
 if [ -n "$DEL" ]
 	then
-	delete_record
+	delete_a
 else
 	create_a
 fi

@@ -123,8 +123,9 @@ Options:
 
 Usage:  
 TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
-`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D "v=spf1 include:aspmx.googlemail.com ~all"` 
-To delete a record, use rsdns-did.sh
+`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D "v=spf1 include:aspmx.googlemail.com ~all"`  
+To delete a record:  
+`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -x` 
 
 ---
 

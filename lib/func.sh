@@ -56,10 +56,11 @@ function get_recordid() {
    get_records
    
    FOUND=0
+   
 	
 	for i in `echo $RECORDS |awk -F, 'BEGIN { RS = ";" } ; {print}' `
 	do
-		
+		i=`echo $i | grep $RECORDTYPE`
 		iNAME=`echo $i  | awk -F "\"*,\"*" '{print $1}'`
 		iNAME=`echo ${iNAME:1}`
 		
@@ -93,8 +94,6 @@ function get_domain() {
 }
 
 function delete_record() {
-  
-  get_domain $NAME
   
   get_recordid
   

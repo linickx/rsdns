@@ -37,9 +37,10 @@ function create_txt () {
 }
 
 function delete_txt() {
-  printf "\n"
-  printf "Sorry! I haven't worked out how to do this, use rsdns-list to find a record id and rsdns-did to delete it."
-  printf "\n"
+ 
+  RECORDTYPE="TXT"
+
+  delete_record
   
 }
 
