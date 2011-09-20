@@ -15,6 +15,7 @@ function usage () {
 	printf "rscurl -u username -a apiKey -n name -i IP -t TTL\n"
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
+	printf "\t-U Update existing record.\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -44,6 +45,32 @@ function create_a () {
     fi
 }
 
+function update_a() {
+
+  if [ -z $IP ]
+    then
+    usage
+    exit 1
+  fi
+
+  get_domain $NAME
+  
+  RECORDTYPE="A"
+  
+  get_recordid
+  
+      RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }'`
+  
+      RC=`curl -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s [:cntrl:] "\n"`
+      
+      
+      if [[ $QUIET -eq 0 ]]; then
+		echo $RC
+      fi
+
+
+}
+
 function delete_a () {
 
   get_domain $NAME
@@ -55,7 +82,7 @@ function delete_a () {
 }
 
 #Get options from the command line.
-while getopts "u:a:n:i:t::hkqx" option
+while getopts "u:a:n:i:t::hkqxU" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -67,6 +94,7 @@ do
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
+		U	) UPDATE=1 ;;
 	esac
 done
 
@@ -101,6 +129,11 @@ if test -z $MGMTSVR
 	exit 98
 fi
 
+if [ -n "$UPDATE" ]
+  then
+  update_a
+  exit 1
+fi
 
 if [ -n "$DEL" ]
 	then

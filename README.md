@@ -53,6 +53,7 @@ Options:
 *  -i IP address
 *  -t TTL
 *  -x Delete a record
+*  -U Update an existing record
 *  -k use the UK (London) servers
 *  -h help
 
@@ -60,7 +61,9 @@ Usage:
 To create a record:  
 `./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -i 123.123.123.123`  
 To delete a record:  
-`./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -x` 
+`./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -x`  
+To update an existing record:  
+`./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -i 111.222.111.222 -U`  
 
 ## rsdns-did.sh ##
 
