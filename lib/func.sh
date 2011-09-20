@@ -106,6 +106,18 @@ function delete_record() {
   
 }
 
+function create_record() {
+
+    RC=`curl -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
+      
+      #echo $RSPOST
+      
+      if [[ $QUIET -eq 0 ]]; then
+		echo $RC
+      fi
+
+}
+
 if [ -z $TTL ]
 then
 	TTL="86400"

@@ -39,13 +39,7 @@ function create_a () {
       #RSPOST='{"records":[{ "type" : "A", "name" : "b.test.linickx.co.uk", "data" : "192.168.192.1", "ttl" : 86400 }]}'
       RSPOST=`echo '{"records":[{ "type" : "A", "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }]}'`
       
-      RC=`curl -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
-      
-      #echo $RSPOST
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
+      create_record
   
     fi
 }

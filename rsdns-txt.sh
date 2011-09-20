@@ -31,13 +31,7 @@ function create_txt () {
       
       RSPOST=`echo '{"records":[{ "type" : "TXT", "name" : "'$NAME'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
       
-     RC=`curl -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
-      
-      #echo $RSPOST
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
+     create_record
       
     fi
 }
