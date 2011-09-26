@@ -67,6 +67,31 @@ To update an existing record:
 Wildcard records are supported, for example  
 `./rsdns-a.sh -u linickx -a 123456 -n *.linickx.com -i 123.123.123.123` 
 
+## rsdns-cn.sh ##
+
+RSDNS CN, create and delete an CNAME record within an existing domain.
+
+Options:
+
+*  -u username
+*  -a api key
+*  -n hostname of the new CNAME
+*  -r the RECORD the CNAME points to
+*  -t TTL
+*  -x Delete a record
+*  -U Update an existing record
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:  
+CNAMEs are a little confusing, you are creating an alias to another record. To keep the usage syntax the same, -n is the name of the new record you are creating, -r is the record you are aliasing. For example, below www.linickx.com is the new record & test.linickx.com is an existing A record.  
+To create a record:  
+`./rsdns-cn.sh -u linickx -a 123456 -n www.linickx.com -r test.linickx.com`  
+To delete a CN record:  
+`./rsdns-cn.sh -u linickx -a 123456 -n www.linickx.com -x`  
+To update an existing record:  
+`./rsdns-cn.sh -u linickx -a 123456 -n www.linickx.com -r test2.linickx.com -U`  
+
 ## rsdns-did.sh ##
 
 RSDNS Delete by ID (did), delete a record by ID.  
