@@ -60,10 +60,12 @@ Options:
 Usage:  
 To create a record:  
 `./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -i 123.123.123.123`  
-To delete a record:  
+To delete an A record:  
 `./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -x`  
 To update an existing record:  
 `./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -i 111.222.111.222 -U`  
+Wildcard records are supported, for example  
+`./rsdns-a.sh -u linickx -a 123456 -n *.linickx.com -i 123.123.123.123` 
 
 ## rsdns-did.sh ##
 
@@ -103,9 +105,9 @@ Options:
 
 Usage:  
 MX record creatation is a little more complicated than A records; the record name is the path for recieving mail in most cases this is the same as the domain, but can be a hostname. The DATA for the record is the hostname of the server recieving the email. The priority is 10 by default and can be used to distribute the mail accross different servers. Below is an email for sending mail to linickx.com    
-`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D mail.linickx.com -p 5`  
+`./rsdns-mx.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D mail.linickx.com -p 5`  
 Below is an example for sending email to a server.  
-`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n host.linickx.com -D host.linickx.com -p 10`  
+`./rsdns-mx.sh -u linickx -a 123456 -d linickx.com -n host.linickx.com -D host.linickx.com -p 10`  
 To delete a record, use rsdns-did.sh
 
 ## rsdns-txt.sh ##
@@ -126,9 +128,33 @@ Options:
 
 Usage:  
 TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
-`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D "v=spf1 include:aspmx.googlemail.com ~all"`  
-To delete a record:  
-`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -x` 
+`./rsdns-txt.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D "v=spf1 include:aspmx.googlemail.com ~all"`  
+To delete a TXT record:  
+`./rsdns-txt.sh -u linickx -a 123456 -d linickx.com -n linickx.com -x` 
+
+
+## rsdns-srv ##
+
+RSDNS SRV, create and delete SRV records within an existing domain, the usage/functionality here is the same as TXT records.
+
+Options:
+
+*  -u username
+*  -a api key
+*  -d domain for the record
+*  -n name for the record
+*  -D data for the record
+*  -t TTL
+*  -x Delete a record
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:  
+TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
+`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -D "1 3443 sip.foo.com\"`  
+To delete a SRV record:  
+`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -x` 
+
 
 ---
 
