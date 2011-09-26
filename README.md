@@ -1,6 +1,6 @@
 # RSDNS Tools #
 
-RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
+RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns](http://www.rackspace.com/cloud/cloud_hosting_products/dns/) [api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
 
 ## rsdns-domain.sh ##
 
