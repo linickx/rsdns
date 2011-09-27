@@ -10,7 +10,7 @@ then
 fi
 
 # load up our auth & funct library
-if [ -n "$RSPATH " ]
+if [ -n "$RSPATH" ]
 then
   . $RSPATH/lib/auth.sh
   . $RSPATH/lib/func.sh
