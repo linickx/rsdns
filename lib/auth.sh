@@ -11,12 +11,18 @@ function get_auth () {
 	
 	if [ -z $RSUSER ]
 	then
+     	printf "\n"
+     	printf "Username Not Set."
+     	printf "\n"
 		usage
 		exit 1
 	fi
 	
 	if [ -z $RSAPIKEY ]
 	then
+     	printf "\n"
+     	printf "API Key Not Set."
+     	printf "\n"
 		usage
 		exit 1
 	fi
