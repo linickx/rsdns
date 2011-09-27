@@ -191,19 +191,18 @@ To reduce the amount of typing and to enable usage of rsdns in your $PATH, a bas
 *  QUIET - disable the output
 
 Example:  
-`
-[LINICKX@SERVER ~]$ cat ~/.rsdns_config 
-RSUSER=linickx  
-RSAPIKEY=123456  
-RSPATH=~/rsdns/  
-UKAUTH=1  
-[LINICKX@SERVER ~]$ PATH=$PATH:~/rsdns/;export PATH  
-[LINICKX@SERVER ~]$ echo $PATH  
-/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/LINICKX/bin:/home/LINICKX/rsdns/  
-[LINICKX@SERVER ~]$ rsdns-list.sh  
- 123456  - test.linickx.com  
-[LINICKX@SERVER ~]$  
-`
+
+    [LINICKX@SERVER ~]$ cat ~/.rsdns_config 
+    RSUSER=linickx  
+    RSAPIKEY=123456  
+    RSPATH=~/rsdns/  
+    UKAUTH=1  
+    [LINICKX@SERVER ~]$ PATH=$PATH:~/rsdns/;export PATH  
+    [LINICKX@SERVER ~]$ echo $PATH  
+    /usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/LINICKX/bin:/home/LINICKX/rsdns/  
+    [LINICKX@SERVER ~]$ rsdns-list.sh  
+     123456  - test.linickx.com  
+    [LINICKX@SERVER ~]$
 
 ---
 
