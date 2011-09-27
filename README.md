@@ -180,6 +180,30 @@ TXT records can be used to create SPF & DKIM records, below is an example to cre
 To delete a SRV record:  
 `./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -x` 
 
+## The Config File ~/.rsdns_config ##
+
+To reduce the amount of typing and to enable usage of rsdns in your $PATH, a basic config file is supported. The following Variables are supported:  
+
+*  RSUSER - Your rackspace username
+*  RSAPIKEY - Your rackspace api key
+*  UKAUTH - set to 1 if you want to use the london (UK) serers
+*  RSPATH - this is where you have installed RSPATH
+*  QUIET - disable the output
+
+Example:  
+`
+[LINICKX@SERVER ~]$ cat ~/.rsdns_config 
+RSUSER=linickx  
+RSAPIKEY=123456  
+RSPATH=~/rsdns/  
+UKAUTH=1  
+[LINICKX@SERVER ~]$ PATH=$PATH:~/rsdns/;export PATH  
+[LINICKX@SERVER ~]$ echo $PATH  
+/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/LINICKX/bin:/home/LINICKX/rsdns/  
+[LINICKX@SERVER ~]$ rsdns-list.sh  
+ 123456  - test.linickx.com  
+[LINICKX@SERVER ~]$  
+`
 
 ---
 

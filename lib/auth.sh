@@ -30,7 +30,7 @@ function get_auth () {
 		DNSSVR="https://dns.api.rackspacecloud.com/v1.0"
 	fi
 	
-	AUTH=`curl -s -X GET -D - -H X-Auth-User:\ $1 -H X-Auth-Key:\ $2 $AUTHSVR|tr -s [:cntrl:] "\n" \
+	AUTH=`curl -s -X GET -D - -H X-Auth-User:\ $RSUSER -H X-Auth-Key:\ $RSAPIKEY $AUTHSVR|tr -s [:cntrl:] "\n" \
 		|awk '{ if ($1 == "HTTP/1.1") printf "%s,", $2 ; if ($1 == "X-Auth-Token:") printf "%s,", $2 ; if ($1 == "X-Server-Management-Url:") printf "%s,", $2 ;}' `
 	
 		
@@ -70,6 +70,13 @@ function http_code_eval () {
 		esac
 	fi
 }
-#Variables
-QUIET=0
-UKAUTH=0
+# Variable Defaults
+if [ -z $QUIET ]
+then
+  QUIET=0
+fi
+
+if [ -z $UKAUTH ]
+then
+  UKAUTH=0
+fi

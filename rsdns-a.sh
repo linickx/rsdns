@@ -3,11 +3,21 @@
 # rsdns-a.sh - Used to create/delete A records hosted on rackspace cloud dns
 #
 
-# load up our auth library
-. lib/auth.sh
+# config file for variables.
+if [ -e ~/.rsdns_config ]
+then
+  . ~/.rsdns_config
+fi
 
-# load up our function library
-. lib/func.sh
+# load up our auth & funct library
+if [ -n "$RSPATH" ]
+then
+  . $RSPATH/lib/auth.sh
+  . $RSPATH/lib/func.sh
+else
+  . lib/auth.sh
+  . lib/func.sh
+fi
 
 #prints out the usage information on error or request.
 function usage () {
@@ -99,7 +109,7 @@ do
 done
 
 #Check for enough variables, print usage if not enough.
-if [ $# -lt 4 ]
+if [ $# -lt 2 ]
 	then
 	usage
 	exit 1
