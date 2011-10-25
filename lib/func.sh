@@ -5,12 +5,12 @@
 
 #gets the domains associated with an account.
 function get_domains() {
-	DOMAINS=`curl -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains|tr -s [:cntrl:] "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
+	DOMAINS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains|tr -s [:cntrl:] "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
 
 }
 
 function get_records() {
-    RECORDS=`curl -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records|tr -s [:cntrl:] "\n"`
+    RECORDS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records|tr -s [:cntrl:] "\n"`
     #echo $RECORDS
     RECORDS=`echo $RECORDS | sed -e 's/{"records":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"type"://g' -e 's/"data"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
 }
@@ -97,7 +97,7 @@ function delete_record() {
   
   get_recordid
   
-  RC=`curl -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s [:cntrl:] "\n"`
+  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s [:cntrl:] "\n"`
   
   if [[ $QUIET -eq 0 ]]; then
     echo $RC
@@ -107,7 +107,7 @@ function delete_record() {
 
 function create_record() {
 
-    RC=`curl -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
+    RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s [:cntrl:] "\n"`
       
       #echo $RSPOST
       
