@@ -2,6 +2,8 @@
 
 RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns](http://www.rackspace.com/cloud/cloud_hosting_products/dns/) [api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
 
+**Requies** - bash, curl, awk & sed ( __+dig for the dhcp client__ )
+
 ## rsdns-domain.sh ##
 
 RSDNS Domain, create and delete a domain from rackspace cloud DNS
@@ -203,6 +205,24 @@ Example:
     [LINICKX@SERVER ~]$ rsdns-list.sh  
      123456  - test.linickx.com  
     [LINICKX@SERVER ~]$
+
+## rsdns-dc ##
+
+RSDNS Dynamic Client (DC), a dynamic DNS client for rackspace cloud. Setup an A record, and use cron to call rsdns-dc.sh to keep the record up to date.  
+To use rsdns-dc.sh you will need a config file (_see above_) and dig installed. This script makes an http request to [icanhazip.com](http://icanhazip.com) to determine your current IP address, firewalls and proxyies will need to be setup as appropriate.
+
+Usage: 
+1. Setup a config file (/home/linickx/.rsdns_config)
+2. create an A record  
+`./rsdns-a.sh -n www.linickx.com -i 123.123.123.123` -t 3600  
+3. Run the script 
+`./rsdns-dc.sh -n dynamichost.linickx.com`
+
+Below is an example of my */etc/cron.d/rsdns-dc* crontab file which updates my IP address every 2 hours.  
+
+    
+    * */2  * * *     linickx /home/linickx/rsdns/rsdns-dc.sh -n dynamichost.linickx.com &>/dev/null
+         
 
 ---
 
