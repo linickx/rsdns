@@ -23,6 +23,7 @@ fi
 function usage () {
 	printf "\n"
 	printf "rscurl -u username -a apiKey -n name -i IP -t TTL\n"
+	printf "\t-d Set the domain name manually"
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
 	printf "\t-U Update existing record.\n"
@@ -40,9 +41,12 @@ function create_a () {
     exit 1
   fi
 
-  get_domain $NAME
-  
-  check_domain
+  if [ -z $DOMAIN ]
+  	then
+	 	get_domain $NAME
+  fi
+
+ 	check_domain
 	
 	if [ $FOUND -eq 1 ]
 	then
@@ -63,7 +67,10 @@ function update_a() {
     exit 1
   fi
 
-  get_domain $NAME
+  if [ -z $DOMAIN ]
+  	then
+  		get_domain $NAME
+  fi
   
   RECORDTYPE="A"
   
@@ -83,7 +90,10 @@ function update_a() {
 
 function delete_a () {
 
-  get_domain $NAME
+  if [ -z $DOMAIN ]
+  	then
+  		get_domain $NAME
+  fi
   
   RECORDTYPE="A"
 
@@ -92,12 +102,13 @@ function delete_a () {
 }
 
 #Get options from the command line.
-while getopts "u:a:n:i:t::hkqxU" option
+while getopts "u:a:d:n:i:t::hkqxU" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
+		d	) DOMAIN=$OPTARG ;;
 		i	) IP=$OPTARG ;;
 		t	) TTL=$OPTARG ;;
 		h	) usage;exit 0 ;;
