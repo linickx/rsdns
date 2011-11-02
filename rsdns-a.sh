@@ -41,10 +41,8 @@ function create_a () {
     exit 1
   fi
 
-  if [ -z $DOMAIN ]
-  	then
-	 	get_domain $NAME
-  fi
+ 	get_domain $NAME
+  
 
  	check_domain
 	
@@ -67,10 +65,7 @@ function update_a() {
     exit 1
   fi
 
-  if [ -z $DOMAIN ]
-  	then
-  		get_domain $NAME
-  fi
+  get_domain $NAME
   
   RECORDTYPE="A"
   
@@ -90,10 +85,7 @@ function update_a() {
 
 function delete_a () {
 
-  if [ -z $DOMAIN ]
-  	then
-  		get_domain $NAME
-  fi
+  get_domain $NAME
   
   RECORDTYPE="A"
 

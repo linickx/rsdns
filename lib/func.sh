@@ -84,13 +84,16 @@ function get_recordid() {
 }
 
 function get_domain() {
-  
-  HOST=`echo $1 | awk -F "." '{print $1}'`
-  HOSTlen=${#HOST}
-  
-  HOSTlen=$(($HOSTlen + 1))
 
-  DOMAIN=${1:($HOSTlen)}
+  if [ -z $DOMAIN ]
+  	then
+	  HOST=`echo $1 | awk -F "." '{print $1}'`
+	  HOSTlen=${#HOST}
+	  
+	  HOSTlen=$(($HOSTlen + 1))
+
+	  DOMAIN=${1:($HOSTlen)}
+  fi
 }
 
 function delete_record() {
