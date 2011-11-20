@@ -182,6 +182,25 @@ TXT records can be used to create SPF & DKIM records, below is an example to cre
 To delete a SRV record:  
 `./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -x` 
 
+## rsdns-ns ##
+
+RSDNS NS, update the Name Server records for a domain (This makes the most sense for sub domains).
+
+Options:
+
+*  -u username
+*  -a api key
+*  -d domain for the record
+*  -s name of the old name server (the one you are chaning)
+*  -S new name server
+*  -t TTL
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:  
+Currently you can only update records, this should be enough for most use cases.
+`./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com`
+
 ## The Config File ~/.rsdns_config ##
 
 To reduce the amount of typing and to enable usage of rsdns in your $PATH, a basic config file is supported. The following Variables are supported:  
