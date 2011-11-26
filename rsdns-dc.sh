@@ -48,10 +48,11 @@ function usage () {
 }
 
 #Get options from the command line.
-while getopts "n:t::hq" option
+while getopts "n:H::hq" option
 do
 	case $option in
 		n	) NAME=$OPTARG ;;
+		H	) HOST=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
 	esac
@@ -64,32 +65,20 @@ if [ -z $NAME ]
     exit 1
 fi
 
-# Authenticate and get started
-get_auth $RSUSER $RSAPIKEY
-if test -z $TOKEN
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Auth Token does not exist.
-	fi
-	exit 98
-fi
-if test -z $MGMTSVR
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Management Server does not exist.
-	fi
-	exit 98
+# Only run if the internet is avilable
+
+if [ -z $HOST ]
+    then
+    HOST="www.google.com"
 fi
 
-# what domain does the host belong to?
-get_domain $NAME
-
-# set our record type
-RECORDTYPE="A"
-
-# find the record ID for our $NAME
-get_recordid
-# get_recordid will bail if $NAME is not found, this is to stop cron jobs from creating many many records.
+if ! ping -c 3 $HOST &>/dev/null  
+then 
+	if [[ $QUIET -eq 0 ]]; then
+		echo "The Internet is down, cannot ping $HOST"
+	fi
+	exit
+fi
 
 # get and set our current IP address
 IP=`curl -s -k http://icanhazip.com`
@@ -100,6 +89,34 @@ ARECORD=`dig @ns.rackspace.com +short -t a $NAME`
 # if the IP doesn't match the A record update :)
 if [ "$IP" != "$ARECORD" ];
 then
+
+	# Authenticate and get started
+	get_auth $RSUSER $RSAPIKEY
+	if test -z $TOKEN
+		then 
+		if [[ $QUIET -eq 0 ]]; then
+			echo Auth Token does not exist.
+		fi
+		exit 98
+	fi
+	if test -z $MGMTSVR
+		then 
+		if [[ $QUIET -eq 0 ]]; then
+			echo Management Server does not exist.
+		fi
+		exit 98
+	fi
+
+	# what domain does the host belong to?
+	get_domain $NAME
+
+	# set our record type
+	RECORDTYPE="A"
+
+	# find the record ID for our $NAME
+	get_recordid
+	# get_recordid will bail if $NAME is not found, this is to stop cron jobs from creating many many records.
+
 	# POST!
 	RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'" }'`
   
