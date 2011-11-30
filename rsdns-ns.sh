@@ -24,7 +24,7 @@ function usage () {
 	printf "\n"
 	printf "rscurl -u username -a apiKey -d domain -s old nameserver -S new nameserver \n"
 	printf "\t-k Use London/UK Servers.\n"
-	printf "\t-A accountID\n"
+	printf "\t-c clientID (cloud sites only)\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
