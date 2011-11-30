@@ -190,7 +190,7 @@ Options:
 
 *  -u username
 *  -a api key
-*  -A accountID (if you have multiple accounts in this username i.e. cloudsite client accounts)
+*  -c ClientID (if you have multiple accounts in this username i.e. cloudsite client accounts)
 *  -d domain for the record
 *  -s name of the old name server (the one you are chaning)
 *  -S new name server
@@ -201,6 +201,9 @@ Options:
 Usage:  
 Currently you can only update records, this should be enough for most use cases.
 `./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com`
+
+If you are modifying a client's dns
+`./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com -c 123456`
 
 ## The Config File ~/.rsdns_config ##
 
