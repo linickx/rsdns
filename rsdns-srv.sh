@@ -55,11 +55,12 @@ function delete_srv() {
 }
 
 #Get options from the command line.
-while getopts "u:a:d:n:D:t::hkqx" option
+while getopts "u:a:c:d:n:D:t::hkqx" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
 		D	) DATA=$OPTARG ;;
