@@ -24,6 +24,7 @@ function usage () {
 	printf "\n"
 	printf "rscurl -u username -a apiKey -d domain -s old nameserver -S new nameserver \n"
 	printf "\t-k Use London/UK Servers.\n"
+	printf "\t-A accountID\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -77,11 +78,12 @@ function update_ns() {
 }
 
 #Get options from the command line.
-while getopts "u:a:d:s:S:t::hkqx" option
+while getopts "u:a:A:d:s:S:t::hkqx" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		A	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		s	) OLDNS=$OPTARG ;;
 		S	) NEWNS=$OPTARG ;;
