@@ -78,12 +78,12 @@ function update_ns() {
 }
 
 #Get options from the command line.
-while getopts "u:a:A:d:s:S:t::hkqx" option
+while getopts "u:a:c:d:s:S:t::hkqx" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
-		A	) USERID=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		s	) OLDNS=$OPTARG ;;
 		S	) NEWNS=$OPTARG ;;
