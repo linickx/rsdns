@@ -51,6 +51,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -n fully qualified hostname
 *  -i IP address
 *  -t TTL
