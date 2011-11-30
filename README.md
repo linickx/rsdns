@@ -190,6 +190,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -A accountID (if you have multiple accounts in this username i.e. cloudsite client accounts)
 *  -d domain for the record
 *  -s name of the old name server (the one you are chaning)
 *  -S new name server
