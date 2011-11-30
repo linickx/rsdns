@@ -65,11 +65,12 @@ function delete_domain() {
 }
 
 #Get options from the command line.
-while getopts "u:a:d:e:t::hkqx" option
+while getopts "u:a:c:d:e:t::hkqx" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		e	) EMAIL=$OPTARG ;;
 		t	) TTL=$OPTARG ;;
