@@ -12,6 +12,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain
 *  -e email address
 *  -t TTL
@@ -33,6 +34,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain
 *  -k use the UK (London) servers
 *  -h help
@@ -78,6 +80,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -n hostname of the new CNAME
 *  -r the RECORD the CNAME points to
 *  -t TTL
@@ -104,6 +107,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain name
 *  -i redord ID
 *  -k use the UK (London) servers
@@ -122,6 +126,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -146,6 +151,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -169,6 +175,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -191,7 +198,7 @@ Options:
 
 *  -u username
 *  -a api key
-*  -c ClientID (if you have multiple accounts in this username i.e. cloudsite client accounts)
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -s name of the old name server (the one you are chaning)
 *  -S new name server
