@@ -29,11 +29,12 @@ function usage () {
 }
 
 #Get options from the command line.
-while getopts "u:a:d:i::hkqx" option
+while getopts "u:a:c:d:i::hkqx" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		i	) ID=$OPTARG ;;
 		h	) usage;exit 0 ;;
