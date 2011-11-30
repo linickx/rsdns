@@ -94,11 +94,12 @@ function delete_a () {
 }
 
 #Get options from the command line.
-while getopts "u:a:d:n:i:t::hkqxU" option
+while getopts "u:a:c:d:n:i:t::hkqxU" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		i	) IP=$OPTARG ;;
