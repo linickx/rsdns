@@ -73,11 +73,12 @@ function print_records() {
 }
 
 #Get options from the command line.
-while getopts "u:a:d::hkq" option
+while getopts "u:a:c:d::hkq" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;

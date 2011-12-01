@@ -91,11 +91,12 @@ function delete_cn () {
 }
 
 #Get options from the command line.
-while getopts "u:a:n:d:r:t::hkqxU" option
+while getopts "u:a:c:n:d:r:t::hkqxU" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
+		c	) USERID=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		r	) CNAME=$OPTARG ;;

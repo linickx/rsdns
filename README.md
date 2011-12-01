@@ -12,6 +12,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain
 *  -e email address
 *  -t TTL
@@ -33,6 +34,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain
 *  -k use the UK (London) servers
 *  -h help
@@ -51,6 +53,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -n fully qualified hostname
 *  -i IP address
 *  -t TTL
@@ -77,6 +80,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -n hostname of the new CNAME
 *  -r the RECORD the CNAME points to
 *  -t TTL
@@ -103,6 +107,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain name
 *  -i redord ID
 *  -k use the UK (London) servers
@@ -121,6 +126,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -145,6 +151,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -168,6 +175,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
 *  -D data for the record
@@ -190,6 +198,7 @@ Options:
 
 *  -u username
 *  -a api key
+*  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -s name of the old name server (the one you are chaning)
 *  -S new name server
@@ -200,6 +209,9 @@ Options:
 Usage:  
 Currently you can only update records, this should be enough for most use cases.
 `./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com`
+
+If you are modifying a client's dns
+`./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com -c 123456`
 
 ## The Config File ~/.rsdns_config ##
 
