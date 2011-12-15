@@ -243,10 +243,11 @@ RSDNS Dynamic Client (DC), a dynamic DNS client for rackspace cloud. Setup an A 
 To use rsdns-dc.sh you will need a config file (_see above_) and dig installed. This script makes an http request to [icanhazip.com](http://icanhazip.com) to determine your current IP address, firewalls and proxyies will need to be setup as appropriate.
 
 Usage: 
-1. Setup a config file (/home/linickx/.rsdns_config)
-2. create an A record  
-`./rsdns-a.sh -n www.linickx.com -i 123.123.123.123` -t 3600  
-3. Run the script 
+
+1.  Setup a config file (/home/linickx/.rsdns_config)
+2.  Create an A record
+`./rsdns-a.sh -n www.linickx.com -i 123.123.123.123 -t 3600  `
+3.  Run the script 
 `./rsdns-dc.sh -n dynamichost.linickx.com`
 
 Below is an example of my */etc/cron.d/rsdns-dc* crontab file which updates my IP address every 2 hours.  
