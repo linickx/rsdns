@@ -89,15 +89,15 @@ Options:
 *  -k use the UK (London) servers
 *  -h help
 
-Usage:
-To create a record:
-`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab`
-To delete an A record:
-`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -x`
-To update an existing record:
-`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab -U`
-Wildcard records are supported, for example
-`./rsdns-aaaa.sh -u linickx -a 123456 -n *.linickx.com -i 4321:0:1:2:3:4:567:89ab`
+Usage:  
+To create a record:  
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab`  
+To delete an A record:  
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -x`  
+To update an existing record:  
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab -U`  
+Wildcard records are supported, for example  
+`./rsdns-aaaa.sh -u linickx -a 123456 -n *.linickx.com -i 4321:0:1:2:3:4:567:89ab`  
 
 ## rsdns-cn.sh ##
 
