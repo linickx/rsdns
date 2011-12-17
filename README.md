@@ -72,6 +72,33 @@ To update an existing record:
 Wildcard records are supported, for example  
 `./rsdns-a.sh -u linickx -a 123456 -n *.linickx.com -i 123.123.123.123` 
 
+## rsdns-aaaa.sh ##
+
+RSDNS AAAA, create and delete an AAAA record within an existing domain.
+
+Options:
+
+*  -u username
+*  -a api key
+*  -c client ID (for cloud sites users)
+*  -n fully qualified hostname
+*  -i IP address
+*  -t TTL
+*  -x Delete a record
+*  -U Update an existing record
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:
+To create a record:
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab`
+To delete an A record:
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -x`
+To update an existing record:
+`./rsdns-aaaa.sh -u linickx -a 123456 -n www.linickx.com -i 4321:0:1:2:3:4:567:89ab -U`
+Wildcard records are supported, for example
+`./rsdns-aaaa.sh -u linickx -a 123456 -n *.linickx.com -i 4321:0:1:2:3:4:567:89ab`
+
 ## rsdns-cn.sh ##
 
 RSDNS CN, create and delete an CNAME record within an existing domain.
