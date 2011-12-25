@@ -30,46 +30,42 @@ function usage () {
 
 #prints out the domains associated with an account.
 function print_domains () {
-	
+
 	get_domains
-	
-	
-	for i in `echo $DOMAINS |awk -F, 'BEGIN { RS = ";" } ; {print}' `
-	do
-		
-		DOMAINID=`echo $i  | awk -F "\"*,\"*" '{print $2}'`
-		
-		DOMAINNAME=`echo $i  | awk -F "\"*,\"*" '{print $1}'`
-		DOMAINNAME=`echo ${DOMAINNAME:1}`
-		
-		printf " %s  - %s \n" $DOMAINID $DOMAINNAME
-	done
-	
+
+	echo $DOMAINS | (
+		echo "ID|Domain"
+		awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $2 "|" $1 }' |
+		sort -t '|' -k 2
+	) | column -t -s '|'
+
 }
 
 #prints out the records for a given domain.
 function print_records() {
-	
+
 	check_domain
-	
+
 	if [ $FOUND -eq 1 ]
 	then
-		
+
 		get_records
-	
-		for i in `echo $RECORDS |awk -F, 'BEGIN { RS = ";" } ; {print}' `
-		do
-			NAME=`echo $i  | awk -F "\"*,\"*" '{print $1}'`
-			RECORDID=`echo $i  | awk -F "\"*,\"*" '{print $2}'`
-			TYPE=`echo $i  | awk -F "\"*,\"*" '{print $3}'`
-			DATA=`echo $i  | awk -F "\"*,\"*" '{print $4}'`
-			
-			printf "%s - %s  - %s - %s \n" $RECORDID $TYPE $NAME $DATA
-		done
-	
+
+		echo $RECORDS | (
+			echo "Record ID|Type|Name|Data"
+			awk -F, '
+BEGIN { RS = ";" }
+{
+  if ($2 ~ "^\"MX")
+    {gsub(/\"/,"") ; print $2 "|" $4 "|" $1 "|" $3, $5}
+  else
+    {gsub(/\"/,"") ; print $2 "|" $3 "|" $1 "|" $4}
+}
+			' | sort -t '|' -k 2,3
+		) | column -t -s '|'
+
 	fi
-	
-	
+
 }
 
 #Get options from the command line.
