@@ -286,4 +286,6 @@ Below is an example of my */etc/cron.d/rsdns-dc* crontab file which updates my I
 ---
 
 ### _Creditz_ ###
-A big thank you [jsquared](http://jsquaredconsulting.com/blog) for publishing [rscurl](https://github.com/jsquared) as without it I would never have got started ;)
+A big thank you [jsquared](http://jsquaredconsulting.com/blog) for publishing [rscurl](https://github.com/jsquared) as without it I would never have got started ;)  
+
+An even bigger, thank you to those in the [CONTRIB.md](https://github.com/linickx/rsdns/blob/master/CONTRIB.md) file who have submitted code and Pull Requests as you make this code worthy to be published on the Internet :D
