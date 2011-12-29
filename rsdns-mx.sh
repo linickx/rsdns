@@ -52,10 +52,13 @@ function create_mx () {
 }
 
 function delete_mx() {
-  printf "\n"
-  printf "Sorry! I haven't worked out how to do this, use rsdns-list to find a record id and rsdns-did to delete it."
-  printf "\n"
+ 
+  get_domain $NAME
   
+  RECORDTYPE="MX"
+
+  delete_record
+ 
 }
 
 #Get options from the command line.

@@ -56,23 +56,30 @@ function get_recordid() {
    get_records
    
    FOUND=0
-   
-	
-	for i in `echo $RECORDS |awk -F, 'BEGIN { RS = ";" } ; {print}' `
+
+	for i in `echo $RECORDS | awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $1 "|" $2 "|" $3 "|" $4 }'`
 	do
-		i=`echo $i | grep $RECORDTYPE`
-		iNAME=`echo $i  | awk -F "\"*,\"*" '{print $1}'`
-		iNAME=`echo ${iNAME:1}`
-		
-		iRECORDID=`echo $i  | awk -F "\"*,\"*" '{print $2}'`
-		
+	
+		if [ "$RECORDTYPE" == "MX" ]
+		then
+			iTYPE=`echo $i  | awk -F "|" '{print $4}'`
+		else
+			iTYPE=`echo $i  | awk -F "|" '{print $3}'`
+		fi
+
+		if [ "$iTYPE" == "$RECORDTYPE" ]
+		then
+			iNAME=`echo $i  | awk -F "|" '{print $1}'`
+			iRECORDID=`echo $i  | awk -F "|" '{print $2}'`
+		fi
+
 		if [ "$iNAME" == "$NAME" ]
 		then
 			FOUND=1
 			RECORDID=$iRECORDID
 		fi
 	done
-	
+
 	if [ $FOUND -eq 0 ]
 	then
 		printf "\n" 

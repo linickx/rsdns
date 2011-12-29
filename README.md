@@ -168,7 +168,9 @@ MX record creatation is a little more complicated than A records; the record nam
 `./rsdns-mx.sh -u linickx -a 123456 -d linickx.com -n linickx.com -D mail.linickx.com -p 5`  
 Below is an example for sending email to a server.  
 `./rsdns-mx.sh -u linickx -a 123456 -d linickx.com -n host.linickx.com -D host.linickx.com -p 10`  
-To delete a record, use rsdns-did.sh
+To delete a record:  
+`./rsdns-mx.sh -u linickx -a 123456 -d linickx.com -n linickx.com -x`  
+If you have two (or three/four/etc) MX records where the -n (name) is the same, the last record you created will be deleted. To delete a different record use delete by ID (rsdns-did.sh)  
 
 ## rsdns-txt.sh ##
 
