@@ -68,6 +68,7 @@ BEGIN { RS = ";" }
 
 }
 
+DOMAINS=( )
 #Get options from the command line.
 while getopts "u:a:c:d::hkq" option
 do
@@ -75,7 +76,7 @@ do
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
 		c	) USERID=$OPTARG ;;
-		d	) DOMAIN=$OPTARG ;;
+		d	) DOMAINS=( "${DOMAINS[@]}" "$OPTARG") ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
@@ -101,11 +102,14 @@ if test -z $MGMTSVR
 fi
 
 #if a domain is given, print records, else print domaints
-if [ -z "$DOMAIN" ]
+if [ -z "${DOMAINS[0]}" ]
 	then
 	print_domains 
 else
+	for DOMAIN in "${DOMAINS[@]}"
+	do
 	print_records
+	done
 fi
 
 #done
