@@ -6,7 +6,7 @@
 FILELOCATION=$0
 while readlink "$FILELOCATION" > /dev/null
 do
-	FILELOCATION=`readlink "$FILELOCATION"`
+	FILELOCATION=$(readlink "$FILELOCATION")
 done
 
 LOCATION=$(dirname "$FILELOCATION")
