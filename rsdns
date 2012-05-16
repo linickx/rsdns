@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Symlink this to a location in your $path
+# e.g. ln -s `pwd`/rsdns /usr/local/bin/rsdns
+
+FILELOCATION=$0
+while `readlink "$FILELOCATION"`
+do
+	FILELOCATION=`readlink "$FILELOCATION"`
+done
+
+LOCATION=$(dirname "$FILELOCATION")
+COMMAND=$1
+if [ "$COMMAND" ]
+then
+	shift
+	$LOCATION/rsdns-$COMMAND.sh $@
+else
+	#TODO: Improve output of this bit
+	echo "Available commands:"
+	cd $LOCATION
+	ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/"
+fi
