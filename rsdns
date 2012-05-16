@@ -4,7 +4,7 @@
 # e.g. ln -s `pwd`/rsdns /usr/local/bin/rsdns
 
 FILELOCATION=$0
-while `readlink "$FILELOCATION"`
+while readlink "$FILELOCATION" > /dev/null
 do
 	FILELOCATION=`readlink "$FILELOCATION"`
 done
