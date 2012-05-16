@@ -47,14 +47,20 @@ function usage () {
 	printf "\n"
 }
 
+#prints words for master rsdns script output 
+function words () {
+	printf "Dynamic DNS Client for rackspace cloud DNS \n"
+}
+
 #Get options from the command line.
-while getopts "n:H::hq" option
+while getopts "n:H::hqw" option
 do
 	case $option in
 		n	) NAME=$OPTARG ;;
 		H	) HOST=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
+		w	) words;exit 0 ;;
 	esac
 done
 

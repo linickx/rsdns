@@ -68,8 +68,13 @@ BEGIN { RS = ";" }
 
 }
 
+#prints words for master rsdns script output 
+function words () {
+	printf "List domains and records hosted by rackspace \n"
+}
+
 #Get options from the command line.
-while getopts "u:a:c:d::hkq" option
+while getopts "u:a:c:d::hkqw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -79,6 +84,7 @@ do
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
+		w	) words;exit 0 ;;
 	esac
 done
 

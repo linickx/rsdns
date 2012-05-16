@@ -64,8 +64,13 @@ function delete_domain() {
   
 }
 
+#prints words for master rsdns script output 
+function words () {
+	printf "Create & delete domains hosted by rackspace cloud DNS \n"
+}
+
 #Get options from the command line.
-while getopts "u:a:c:d:e:t::hkqx" option
+while getopts "u:a:c:d:e:t::hkqxw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -78,6 +83,7 @@ do
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
+		w	) words;exit 0 ;;
 	esac
 done
 

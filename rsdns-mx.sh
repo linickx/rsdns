@@ -61,8 +61,13 @@ function delete_mx() {
  
 }
 
+#prints words for master rsdns script output 
+function words () {
+	printf "Manage mail exchange (MX) records \n"
+}
+
 #Get options from the command line.
-while getopts "u:a:c:d:n:D:p::hkqx" option
+while getopts "u:a:c:d:n:D:p::hkqxw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -77,6 +82,7 @@ do
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
+		w	) words;exit 0 ;;
 	esac
 done
 

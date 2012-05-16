@@ -93,8 +93,13 @@ function delete_aaaa () {
 
 }
 
+#prints words for master rsdns script output 
+function words () {
+	printf "Manage AAAA records, host records for IPv6 \n"
+}
+
 #Get options from the command line.
-while getopts "u:a:c:d:n:i:t::hkqxU" option
+while getopts "u:a:c:d:n:i:t::hkqxUw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -109,6 +114,7 @@ do
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
 		U	) UPDATE=1 ;;
+		w	) words;exit 0 ;;
 	esac
 done
 
