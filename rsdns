@@ -3,7 +3,13 @@
 # Symlink this to a location in your $path
 # e.g. ln -s `pwd`/rsdns /usr/local/bin/rsdns
 
-LOCATION=$(dirname "$(readlink "$0")")
+FILELOCATION=$0
+while `readlink "$FILELOCATION"`
+do
+	FILELOCATION=`readlink "$FILELOCATION"`
+done
+
+LOCATION=$(dirname "$FILELOCATION")
 COMMAND=$1
 if [ "$COMMAND" ]
 then
