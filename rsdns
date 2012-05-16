@@ -16,8 +16,13 @@ then
 	shift
 	$LOCATION/rsdns-$COMMAND.sh $@
 else
-	#TODO: Improve output of this bit
 	echo "Available commands:"
 	cd $LOCATION
-	ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/"
+	(
+		for COMMAND in $(ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/")
+		do
+			echo -n " $COMMAND | "
+			./rsdns-$COMMAND.sh -w
+		done
+	) | column -t -s '|'
 fi
