@@ -16,7 +16,13 @@ then
 	shift
 	$LOCATION/rsdns-$COMMAND.sh $@
 else
-	echo "Available commands:"
+	printf "\n"
+	printf "Use the -h switch for details on how to use each sub command \n"
+	printf "e.g. rsdns a -h \n"
+	printf "\n"
+	printf "Available commands: \n"
+	printf "\n"
+
 	cd $LOCATION
 	(
 		for COMMAND in $(ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/")
@@ -25,4 +31,5 @@ else
 			./rsdns-$COMMAND.sh -w
 		done
 	) | column -t -s '|'
+	printf "\n"
 fi
