@@ -22,7 +22,7 @@ fi
 #prints out the usage information on error or request.
 function usage () {
 	printf "\n"
-	printf "rscurl -u username -a apiKey -n cNAME -r aRECORD -t TTL\n"
+	printf "rsdns cn -u username -a apiKey -n cNAME -r aRECORD -t TTL\n"
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
 	printf "\t-U Update existing record.\n"
