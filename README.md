@@ -2,7 +2,7 @@
 
 RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns](http://www.rackspace.com/cloud/cloud_hosting_products/dns/) [api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
 
-**Requires** - bash, curl, awk & sed ( __+dig for the dhcp client__ )
+**Requires** - bash, curl, gsub, awk & sed ( __+dig for the dhcp client__ )
 
 ## $PATH ##
 
@@ -13,10 +13,10 @@ The rsdns scripts have been designed to be called independently so that administ
 rsdns list -d www.linickx.com
 ``` 
 
-You can add `rsdns` to you path in one of two ways, either:  
-* add the whole rsdns directory to your $PATH environment variable ( *see example below* )
-or  
-* symlink `rsdns` to a folder like /usr/local/bin, which is already in your $PATH
+You can add `rsdns` to you path in one of two ways:  
+
+- add the whole rsdns directory to your $PATH environment variable ( *see example below* )  ... or...
+- symlink `rsdns` to a folder like /usr/local/bin, which is already in your $PATH
 
 ## The Config File ~/.rsdns_config ##
 
@@ -25,7 +25,7 @@ To reduce the amount of typing and to enable usage of rsdns in your $PATH, a bas
 *  RSUSER - Your rackspace username
 *  RSAPIKEY - Your rackspace api key
 *  UKAUTH - set to 1 if you want to use the London (UK) servers
-*  RSPATH - this is where you have installed RSPATH
+*  RSPATH - this is where you have installed RSDNS
 *  QUIET - disable the output
 
 Example:  
