@@ -42,7 +42,7 @@ if [ -z $EMAIL ]
   # {"domains":[{"name":"example.com","ttl":86400,"emailAddress":"me@example.com"}]}
   RSPOST=`echo '{"domains":[{ "name" : "'$DOMAIN'", "emailAddress" : "'$EMAIL'", "ttl" : '$TTL' }]}'`
   
-   RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s [:cntrl:] "\n"`
+   RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
       #echo $RSPOST
       
@@ -56,7 +56,7 @@ function delete_domain() {
   
   check_domain
   
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s [:cntrl:] "\n"`
+  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
   
   if [[ $QUIET -eq 0 ]]; then
     echo $RC

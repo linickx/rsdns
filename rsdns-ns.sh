@@ -67,7 +67,7 @@ function update_ns() {
   
     RSPOST=`echo '{ "name" : "'$DOMAIN'", "data" : "'$NEWNS'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s [:cntrl:] "\n"`
+      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
       
       if [[ $QUIET -eq 0 ]]; then
