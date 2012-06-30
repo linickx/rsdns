@@ -89,7 +89,7 @@ fi
 # get the domain ID :)
 check_domain
 
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$ID|tr -s [:cntrl:] "\n"`
+  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$ID|tr -s '[:cntrl:]' "\n"`
   
   if [[ $QUIET -eq 0 ]]; then
     echo $RC
