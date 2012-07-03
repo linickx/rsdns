@@ -149,7 +149,6 @@ fi
 if [ -n "$UPDATE" ]
   then
   update_cn
-  exit 1
 fi
 
 if [ -n "$DEL" ]
