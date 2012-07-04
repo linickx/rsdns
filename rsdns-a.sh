@@ -152,7 +152,6 @@ fi
 if [ -n "$UPDATE" ]
   then
   update_a
-  exit 1
 fi
 
 if [ -n "$DEL" ]
