@@ -87,7 +87,7 @@ then
 fi
 
 # get and set our current IP address
-IP=`curl -s -k http://icanhazip.com`
+IP=`curl -s -k http://ipv4.icanhazip.com`
 
 # Check the RS DNS servers for the current A Record
 ARECORD=`dig @ns.rackspace.com +short -t a $NAME`
