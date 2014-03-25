@@ -42,8 +42,8 @@ function get_auth () {
 		
 	EC=`echo $AUTH|awk -F, '{print $1}'`
 	if [[ $EC == "204" ]]; then
-		TOKEN=`echo $AUTH|awk -F, '{print $2}'`
-		MGMTSVR=`echo $AUTH|awk -F, '{print $3}'`
+		TOKEN=`echo $AUTH|awk -F, '{print $3}'`
+		MGMTSVR=`echo $AUTH|awk -F, '{print $2}'`
 		if [[ ! -n $USERID ]]; then
 		  USERID=`echo $MGMTSVR | awk -F "/" '{print $5}'`
 		fi
