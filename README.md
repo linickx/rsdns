@@ -118,7 +118,10 @@ To delete an A record:
 To update an existing record:  
 `./rsdns-a.sh -u linickx -a 123456 -n www.linickx.com -i 111.222.111.222 -U`  
 Wildcard records are supported, for example  
-`./rsdns-a.sh -u linickx -a 123456 -n *.linickx.com -i 123.123.123.123` 
+`./rsdns-a.sh -u linickx -a 123456 -n *.linickx.com -i 123.123.123.123`  
+To create a record with no prefix:  
+`./rsdns-a.sh -u linickx -a 123456 -d linickx.com -n linickx.com -i 123.123.123.123` 
+
 
 ### rsdns-aaaa.sh ###
 
