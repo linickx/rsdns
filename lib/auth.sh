@@ -29,29 +29,26 @@ function get_auth () {
 
 	
 	if [[ $UKAUTH -eq 1 ]]; then
-		AUTHSVR="https://lon.auth.api.rackspacecloud.com/v1.0"
+		AUTHSVR="https://lon.identity.api.rackspacecloud.com/v2.0/tokens"
 		DNSSVR="https://lon.dns.api.rackspacecloud.com/v1.0"
 	else
-		AUTHSVR="https://auth.api.rackspacecloud.com/v1.0"
+		AUTHSVR="https://identity.api.rackspacecloud.com/v2.0/tokens"
 		DNSSVR="https://dns.api.rackspacecloud.com/v1.0"
 	fi
-	
-	AUTH=`curl -s -X GET -D - -H X-Auth-User:\ $RSUSER -H X-Auth-Key:\ $RSAPIKEY $AUTHSVR|tr -s '[:cntrl:]' "\n" \
-		|awk '{ if ($1 == "HTTP/1.1") printf "%s,", $2 ; if ($1 == "X-Auth-Token:") printf "%s,", $2 ; if ($1 == "X-Server-Management-Url:") printf "%s,", $2 ;}' `
-	
-		
-	EC=`echo $AUTH|awk -F, '{print $1}'`
-	if [[ $EC == "204" ]]; then
-		TOKEN=`echo $AUTH|awk -F, '{print $3}'`
-		MGMTSVR=`echo $AUTH|awk -F, '{print $2}'`
-		if [[ ! -n $USERID ]]; then
-		  USERID=`echo $MGMTSVR | awk -F "/" '{print $5}'`
-		fi
+
+	# http://stackoverflow.com/questions/2220301/how-to-evaluate-http-response-codes-from-bash-shell-script
+	AUTH=`curl --write-out %{http_code} -s -o ~/.rsdns_auth.json -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
+
+	if [[ $AUTH == "200" ]]; then
+		TOKEN=`jq -r '.access.token.id' ~/.rsdns_auth.json`
+		USERID=`jq -r '.access.token.tenant.id' ~/.rsdns_auth.json`
+		MGMTSVR=`jq -r '.access.serviceCatalog[] | select(.name == "cloudServers") | .endpoints[].publicURL' ~/.rsdns_auth.json`
+		#DNSSVR=`jq '.access.serviceCatalog[] | select(.name == "cloudDNS") | .endpoints[].publicURL' ~/.rsdns_auth.json`
 	else
 		if [[ $QUIET -eq 1 ]]; then
 			exit $EC
 		fi
-		echo "Authentication Failed ($EC)"
+		echo "Authentication Failed ($AUTH)"
 		exit $EC
 	fi
 }
