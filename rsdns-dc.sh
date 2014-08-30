@@ -35,6 +35,9 @@ else
   exit
 fi
 
+# Check for additional dependency
+check_dep "dig"
+
 
 #prints out the usage information on error or request.
 function usage () {

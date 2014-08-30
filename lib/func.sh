@@ -127,7 +127,17 @@ function create_record() {
 
 }
 
+function check_dep() {
+	# http://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script
+	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 1; }
+}
+
 if [ -z $TTL ]
 then
 	TTL="86400"
 fi
+
+# Check for dependencies
+check_dep "curl"
+check_dep "awk"
+check_dep "sed"
