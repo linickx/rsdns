@@ -4,6 +4,8 @@ RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns]
 
 **Requires** - bash, curl, gsub, awk & sed ( __+dig for the dhcp client__ )
 
+> Working with v1 *Auth* API
+
 ## $PATH ##
 
 The rsdns scripts have been designed to be called independently so that administrators can batch process DNS record management. Typing commands like "rsdns-list.sh" aren't very user friendly, for the one off *typed by hand* activities  a "master script" called `rsdns` exists.  
