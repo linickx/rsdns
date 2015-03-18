@@ -141,3 +141,4 @@ fi
 check_dep "curl"
 check_dep "awk"
 check_dep "sed"
+check_dep "jq"
