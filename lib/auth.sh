@@ -8,7 +8,7 @@
 #Authenticates to the Rackspace Service and sets up the Authentication Token and Managment server
 #REQUIRES: 1=AuthUser 2=API_Key
 function get_auth () {
-	
+
 	if [ -z $RSUSER ]
 	then
      	printf "\n"
@@ -17,7 +17,7 @@ function get_auth () {
 		usage
 		exit 1
 	fi
-	
+
 	if [ -z $RSAPIKEY ]
 	then
      	printf "\n"
@@ -27,7 +27,13 @@ function get_auth () {
 		exit 1
 	fi
 
-	
+	if [ -n "$RSPATH" ]
+	then
+	  AUTHFILE="$RSPATH/.rsdns_auth.json"
+	else
+	  AUTHFILE="$HOME/.rsdns_auth.json"
+	fi
+
 	if [[ $UKAUTH -eq 1 ]]; then
 		AUTHSVR="https://lon.identity.api.rackspacecloud.com/v2.0/tokens"
 		DNSSVR="https://lon.dns.api.rackspacecloud.com/v1.0"
@@ -36,14 +42,56 @@ function get_auth () {
 		DNSSVR="https://dns.api.rackspacecloud.com/v1.0"
 	fi
 
+	if [ -e $AUTHFILE ]
+	then
+		TOKENEXPIRES=`jq -r '.access.token.expires' $AUTHFILE`
+		NOW=`date +%Y-%m-%dT%H:%M:%S`
+
+		# Match Yr
+		if [ "${NOW:0:4}" == "${TOKENEXPIRES:0:4}" ]
+		then
+			# Match Month
+			if [ "${NOW:5:2}" == "${TOKENEXPIRES:5:2}" ]
+			then
+				# Match Day
+				if [ "${NOW:8:2}" -le "${TOKENEXPIRES:8:2}" ]
+				then
+					# Hour must be less than Token - I don't care about minutes/seconds ;-)
+					if [ "${NOW:11:2}" -lt "${TOKENEXPIRES:11:2}" ]
+					then
+						read_token
+					else
+						curl_auth
+					fi
+				else
+					curl_auth
+				fi
+			else
+				curl_auth
+			fi
+		else
+			curl_auth
+		fi
+	else
+		curl_auth
+	fi
+
+
+}
+
+function curl_auth() {
+
+	# Clean up anything
+	if [ -e $AUTHFILE ]
+	then
+		rm -f $AUTHFILE
+	fi
+
 	# http://stackoverflow.com/questions/2220301/how-to-evaluate-http-response-codes-from-bash-shell-script
-	AUTH=`curl --write-out %{http_code} -s -o ~/.rsdns_auth.json -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
+	AUTH=`curl --write-out %{http_code} -s -o $AUTHFILE -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
 
 	if [[ $AUTH == "200" ]]; then
-		TOKEN=`jq -r '.access.token.id' ~/.rsdns_auth.json`
-		USERID=`jq -r '.access.token.tenant.id' ~/.rsdns_auth.json`
-		MGMTSVR=`jq -r '.access.serviceCatalog[] | select(.name == "cloudServers") | .endpoints[].publicURL' ~/.rsdns_auth.json`
-		#DNSSVR=`jq '.access.serviceCatalog[] | select(.name == "cloudDNS") | .endpoints[].publicURL' ~/.rsdns_auth.json`
+		read_token
 	else
 		if [[ $QUIET -eq 1 ]]; then
 			exit $EC
@@ -51,6 +99,13 @@ function get_auth () {
 		echo "Authentication Failed ($AUTH)"
 		exit $EC
 	fi
+}
+
+function read_token() {
+	TOKEN=`jq -r '.access.token.id' $AUTHFILE`
+	USERID=`jq -r '.access.token.tenant.id' $AUTHFILE`
+	MGMTSVR=`jq -r '.access.serviceCatalog[] | select(.name == "cloudServers") | .endpoints[].publicURL' $AUTHFILE`
+	#DNSSVR=`jq '.access.serviceCatalog[] | select(.name == "cloudDNS") | .endpoints[].publicURL' ~/.rsdns_auth.json`
 }
 
 function http_code_eval () {
