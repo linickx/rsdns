@@ -90,6 +90,8 @@ function curl_auth() {
 	# http://stackoverflow.com/questions/2220301/how-to-evaluate-http-response-codes-from-bash-shell-script
 	AUTH=`curl --write-out %{http_code} -s -o $AUTHFILE -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
 
+	chmod 600 $AUTHFILE
+
 	if [[ $AUTH == "200" ]]; then
 		read_token
 	else
