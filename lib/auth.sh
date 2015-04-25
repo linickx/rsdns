@@ -106,7 +106,7 @@ function curl_auth() {
 function read_token() {
 	TOKEN=`jq -r '.access.token.id' $AUTHFILE`
 	USERID=`jq -r '.access.token.tenant.id' $AUTHFILE`
-	MGMTSVR=`jq -r '.access.serviceCatalog[] | select(.name == "cloudServers") | .endpoints[].publicURL' $AUTHFILE`
+	MGMTSVR=`jq -r '.access.serviceCatalog[] | select(.name == "cloudServersOpenStack") | .endpoints[].publicURL' $AUTHFILE`
 	#DNSSVR=`jq '.access.serviceCatalog[] | select(.name == "cloudDNS") | .endpoints[].publicURL' ~/.rsdns_auth.json`
 }
 
