@@ -3,6 +3,24 @@
 # Functions used in >1 tools
 #
 
+function get_export_domain() {
+	EXPORT_DOMAIN=""
+	local response=$(curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/export|tr -s '[:cntrl:]' "\n")
+	local callback_url=$(echo "$response" | perl -ane 'if(/"callbackUrl":\"(.*?)"/){print $1;}')
+	# async method
+	for i in $(seq 1 3); do
+		sleep 5
+	    local callback_responce=$(curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $callback_url|tr -s '[:cntrl:]' "\n")
+	    local status=$(echo "$callback_responce" | perl -ane 'if(/"status":\"(.*?)"/){print $1;}')
+	    if [ "$status" == "COMPLETED" ];then
+	    	EXPORT_DOMAIN=$(curl -k -s -X GET -H X-Auth-Token:\ $TOKEN "${callback_url}?showDetails=true"|tr -s '[:cntrl:]' "\n")
+	    	EXPORT_DOMAIN=$(echo "$EXPORT_DOMAIN" | perl -ane 'if(/"contents":"(.*?)","/){$t=$1;$t=~s/\\n/\n/g;$t=~s/\\t/\t/g;$t=~s/\\"/"/g;print $t;}')
+	    	break
+	    fi
+	done
+}
+
+
 #gets the domains associated with an account.
 function get_domains() {
 	DOMAINS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains|tr -s '[:cntrl:]' "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
