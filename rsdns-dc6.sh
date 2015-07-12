@@ -93,10 +93,10 @@ fi
 IP=`curl -s -k http://ipv6.icanhazip.com`
 
 # Check the RS DNS servers for the current A Record
-ARECORD=`dig @ns.rackspace.com +short -t aaaa $NAME`
+AAAARECORD=`dig @ns.rackspace.com +short -t aaaa $NAME`
 
 # if the IP doesn't match the A record update :)
-if [ "$IP" != "$ARECORD" ];
+if [ "$IP" != "$AAAARECORD" ];
 then
 
 	# Authenticate and get started
