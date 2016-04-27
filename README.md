@@ -295,6 +295,24 @@ Currently you can only update records, this should be enough for most use cases.
 If you are modifying a client's dns
 `./rsdns-ns.sh -u linickx -a 123456 -d linickx.com -s dns1.stabletransit.com -S ns.example.com -c 123456`
 
+### rsdns-export.sh ###
+
+RSDNS Export, exports a domain in BIND format.
+
+Options:
+
+*  -u username
+*  -a api key
+*  -c client ID (for cloud sites users)
+*  -d domain
+*  -k use the UK (London) servers
+*  -h help
+
+Usage:
+To export a domain  
+`./rsdns-list.sh -u linickx -a 123456 -d linickx.com`
+
+
 ## Dynamic DNS Client ##
 
 Dynamic DNS is where a clients IP address changes regularly and it's A record is updated as appropriate. This script is slightly different to the others; example usage is given below, I have a full description on [this blog post](http://www.linickx.com/3442/building-a-free-dynamic-dns-client-with-rackspace-cloud).
