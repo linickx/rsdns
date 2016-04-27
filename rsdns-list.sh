@@ -28,19 +28,6 @@ function usage () {
 	printf "\n"
 }
 
-#prints out the domains associated with an account.
-function print_domains () {
-
-	get_domains
-
-	echo $DOMAINS | (
-		echo "ID|Domain"
-		awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $2 "|" $1 }' |
-		sort -t '|' -k 2
-	) | column -t -s '|'
-
-}
-
 #prints out the records for a given domain.
 function print_records() {
 

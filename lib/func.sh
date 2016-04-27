@@ -127,6 +127,19 @@ function create_record() {
 
 }
 
+#prints out the domains associated with an account.
+function print_domains () {
+
+	get_domains
+
+	echo $DOMAINS | (
+		echo "ID|Domain"
+		awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $2 "|" $1 }' |
+		sort -t '|' -k 2
+	) | column -t -s '|'
+
+}
+
 function check_dep() {
 	# http://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script
 	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 1; }
