@@ -310,7 +310,7 @@ Options:
 
 Usage:
 To export a domain  
-`./rsdns-list.sh -u linickx -a 123456 -d linickx.com`
+`./rsdns-export.sh -u linickx -a 123456 -d linickx.com`
 
 
 ## Dynamic DNS Client ##
