@@ -44,26 +44,34 @@ function get_export() {
         DOMEXPORT=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/export|tr -s '[:cntrl:]' "\n"`
         
         JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
-        echo "Job status is: $JQ_DOMEXPORT_STATUS" 
+        echo "Job status is: $JQ_DOMEXPORT_STATUS"
+        
+        JQ_DOMEXPORT_CALLBACK=`echo $DOMEXPORT | jq .callbackUrl | tr -d '"'` 
         
         if [ "$JQ_DOMEXPORT_STATUS" == "RUNNING" ]
         then
-            sleep 1
-            JQ_DOMEXPORT_CALLBACK=`echo $DOMEXPORT | jq .callbackUrl | tr -d '"'`
-            
-            DOMEXPORT=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $JQ_DOMEXPORT_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
-            
-            JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
-            echo "Job status is: $JQ_DOMEXPORT_STATUS"
-            echo 
-            
-            if [ "$JQ_DOMEXPORT_STATUS" == "COMPLETED" ]
-            then
-                echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1'
-            
-            else
-                echo $DOMEXPORT | jq .
-            fi
+            while true; do
+
+                DOMEXPORT=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $JQ_DOMEXPORT_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
+                
+                JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
+                echo "Job status is: $JQ_DOMEXPORT_STATUS"
+                echo 
+                
+                if [ "$JQ_DOMEXPORT_STATUS" == "COMPLETED" ]
+                then
+                    echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1'
+                    break
+                elif [ "$JQ_DOMEXPORT_STATUS" == "ERROR" ]; then
+                    echo $DOMEXPORT | jq .
+                    break
+                else
+                    echo "Sleeping...."
+                    sleep 1
+                fi
+            done
+        else
+            echo echo $DOMEXPORT | jq .
         fi
     fi
 }
