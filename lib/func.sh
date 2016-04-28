@@ -19,12 +19,12 @@ function get_domains() {
 	if [ "$PAGSTATUS0" == "next" ]
 	then
 		jDOMAINSp=$jDOMAINS
-		COUNTER=0
+
+		echo -n "Downloading Domains."
 		while true; do
 			PAGSTATUS0=`echo $jDOMAINSp | jq -r .links[0].rel` &>/dev/null
 			
-			echo "-- $COUNTER --"
-			COUNTER=$[$COUNTER +1]
+			echo -n "."
 			
 			if [ "$PAGSTATUS0" == "next" ]
 			then
@@ -41,6 +41,7 @@ function get_domains() {
 				break
 			fi
 		done
+		echo
 	fi
 
 	# Legacy variable/response for backward compatability
@@ -54,13 +55,11 @@ function get_records() {
 	if [ "$PAGSTATUS0" == "next" ]
 	then
 		jRECORDSp=$jRECORDS
-		COUNTER=0
+
+		echo -n "Downloading Records."
 		while true; do
 			PAGSTATUS0=`echo $jRECORDSp | jq -r .links[0].rel` &>/dev/null
-			
-			echo "-- $COUNTER --"
-			COUNTER=$[$COUNTER +1]
-			echo $PAGSTATUS0
+			echo -n "."
 			
 			if [ "$PAGSTATUS0" == "next" ]
 			then
@@ -75,6 +74,7 @@ function get_records() {
 				break
 			fi
 		done
+		echo
 	fi
 	#echo $jRECORDS | jq .
 
