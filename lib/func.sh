@@ -48,9 +48,37 @@ function get_domains() {
 }
 
 function get_records() {
-    RECORDS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records|tr -s '[:cntrl:]' "\n"`
-    #echo $RECORDS
-    RECORDS=`echo $RECORDS | sed -e 's/{"records":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"type"://g' -e 's/"data"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
+    jRECORDS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records?limit=$RSLIMIT`
+	PAGSTATUS0=`echo $jRECORDS | jq -r .links[0].rel` &>/dev/null
+	
+	if [ "$PAGSTATUS0" == "next" ]
+	then
+		jRECORDSp=$jRECORDS
+		COUNTER=0
+		while true; do
+			PAGSTATUS0=`echo $jRECORDSp | jq -r .links[0].rel` &>/dev/null
+			
+			echo "-- $COUNTER --"
+			COUNTER=$[$COUNTER +1]
+			echo $PAGSTATUS0
+			
+			if [ "$PAGSTATUS0" == "next" ]
+			then
+				NEXTURL=`echo $jRECORDSp | jq -r .links[].href`
+				jRECORDSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jRECORDS+=$jRECORDSp
+			elif [ "$PAGSTATUS0" == "previous" ]; then
+				NEXTURL=`echo $jRECORDSp | jq -r .links[1].href`
+				jRECORDSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jRECORDS+=$jRECORDSp
+			else
+				break
+			fi
+		done
+	fi
+	#echo $jRECORDS | jq .
+
+    RECORDS=`echo $jRECORDS |tr -s '[:cntrl:]' "\n"| sed -e 's/{"records":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"type"://g' -e 's/"data"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
 }
 
 function check_domain() {
