@@ -5,8 +5,46 @@
 
 #gets the domains associated with an account.
 function get_domains() {
-	DOMAINS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains|tr -s '[:cntrl:]' "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
+	
+	if [ -z "$RSLIMIT" ]
+	then
+		# Set limit for pagination
+		RSLIMIT=99
+	fi
+	
+	#  Curl response in JSON
+	jDOMAINS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains?limit=$RSLIMIT`
+	PAGSTATUS0=`echo $jDOMAINS | jq -r .links[0].rel` &>/dev/null
+	
+	if [ "$PAGSTATUS0" == "next" ]
+	then
+		jDOMAINSp=$jDOMAINS
+		COUNTER=0
+		while true; do
+			PAGSTATUS0=`echo $jDOMAINSp | jq -r .links[0].rel` &>/dev/null
+			
+			echo "-- $COUNTER --"
+			COUNTER=$[$COUNTER +1]
+			
+			if [ "$PAGSTATUS0" == "next" ]
+			then
+				NEXTURL=`echo $jDOMAINSp | jq -r .links[].href`
+				jDOMAINSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				#echo $jDOMAINSp
+				jDOMAINS+=$jDOMAINSp
+			elif [ "$PAGSTATUS0" == "previous" ]; then
+				NEXTURL=`echo $jDOMAINSp | jq -r .links[1].href`
+				jDOMAINSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				#echo $jDOMAINSp
+				jDOMAINS+=$jDOMAINSp
+			else
+				break
+			fi
+		done
+	fi
 
+	# Legacy variable/response for backward compatability
+	DOMAINS=`echo $jDOMAINS |tr -s '[:cntrl:]' "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`	
 }
 
 function get_records() {
@@ -132,11 +170,8 @@ function print_domains () {
 
 	get_domains
 
-	echo $DOMAINS | (
-		echo "ID|Domain"
-		awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $2 "|" $1 }' |
-		sort -t '|' -k 2
-	) | column -t -s '|'
+	echo "ID      | Domain"
+	echo $jDOMAINS | jq -r '.domains[] | "\(.id) | \(.name)"'
 
 }
 
