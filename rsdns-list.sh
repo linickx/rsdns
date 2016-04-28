@@ -37,19 +37,7 @@ function print_records() {
 	then
 
 		get_records
-
-		echo $RECORDS | (
-			echo "Record ID|Type|Name|Data"
-			awk -F, '
-BEGIN { RS = ";" }
-{
-  if ($2 ~ "^\"MX")
-    {gsub(/\"/,"") ; print $2 "|" $4 "|" $1 "|" $3, $5}
-  else
-    {gsub(/\"/,"") ; print $2 "|" $3 "|" $1 "|" $4}
-}
-			' | sort -t '|' -k 2,3
-		) | column -t -s '|'
+        echo $jRECORDS | jq -r '"ID | Type | Name | Data", (.records[] | "\(.id) | \(.type) | \(.name) | \(.data)")' | column -t -s ' | '
 
 	fi
 
