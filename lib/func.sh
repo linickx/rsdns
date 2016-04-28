@@ -59,15 +59,13 @@ function check_domain() {
 
     FOUND=0
 	
-	for i in `echo $DOMAINS |awk -F, 'BEGIN { RS = ";" } ; {print}' `
+	for i in `echo $jDOMAINS | jq -r '.domains[] | "\(.id)|\(.name)"'`
 	do
 		
-		iDOMAINID=`echo $i  | awk -F "\"*,\"*" '{print $2}'`
-		
-		iDOMAINNAME=`echo $i  | awk -F "\"*,\"*" '{print $1}'`
-		iDOMAINNAME=`echo ${iDOMAINNAME:1}`
-		
-		
+		iDOMAINID=`echo $i  | awk -F "|" '{print $1}'`
+		iDOMAINNAME=`echo $i  | awk -F "|" '{print $2}'`
+		#echo "$iDOMAINID - $iDOMAINNAME"
+
 		if [ "$iDOMAINNAME" == "$DOMAIN" ]
 		then
 			FOUND=1
@@ -83,8 +81,6 @@ function check_domain() {
 		printf "\n"
 		exit 98
 	fi
-
-
 }
 
 function get_recordid() {
