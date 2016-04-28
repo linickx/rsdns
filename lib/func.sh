@@ -2,6 +2,7 @@
 #
 # Functions used in >1 tools
 #
+RSDNS_VERSION="3.1"
 
 #gets the domains associated with an account.
 function get_domains() {
