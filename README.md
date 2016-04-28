@@ -29,6 +29,7 @@ To reduce the amount of typing and to enable usage of rsdns in your $PATH, a bas
 *  UKAUTH - set to 1 if you want to use the London (UK) servers
 *  RSPATH - this is where you have installed RSDNS
 *  QUIET - disable the output
+*  RSLIMIT - set the pagination limit (default 99) must be less than 100
 
 Example:  
 
