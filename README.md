@@ -307,11 +307,13 @@ Options:
 *  -c client ID (for cloud sites users)
 *  -d domain
 *  -k use the UK (London) servers
+*  -o Save export to local directory / text file
+*  -O Specify filename to save export to
 *  -h help
 
 Usage:
 To export a domain  
-`./rsdns-export.sh -u linickx -a 123456 -d linickx.com`
+`./rsdns-export.sh -u linickx -a 123456 -d linickx.com -O ~/Desktop/export.txt`
 
 
 ## Dynamic DNS Client ##

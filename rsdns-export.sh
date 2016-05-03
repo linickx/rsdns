@@ -22,8 +22,10 @@ fi
 #prints out the usage information on error or request.
 function usage () {
 	printf "\n"
-	printf "rsdns list -u username -a apiKey -d domain\n"
+	printf "rsdns export -u username -a apiKey -d domain -o -O filename.txt \n"
 	printf "\t-k Use London/UK Servers.\n"
+    printf "\t-o Save export to local directory / text file. \n"
+    printf "\t-O Specify filename to save export to. \n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -60,6 +62,10 @@ function get_export() {
                 
                 if [ "$JQ_DOMEXPORT_STATUS" == "COMPLETED" ]
                 then
+                    if [ -n "$OFILE" ]; then
+                        printf "\n \t Export will be written to: $OFILE \n\n"
+                        echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed 's/\\//g' > $OFILE
+                    fi
                     echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed 's/\\//g'
                     break
                 elif [ "$JQ_DOMEXPORT_STATUS" == "ERROR" ]; then
@@ -78,7 +84,7 @@ function get_export() {
 
 
 #Get options from the command line.
-while getopts "u:a:c:d::hkqw" option
+while getopts ":u:a:c:d:O::hkqwo" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -89,6 +95,8 @@ do
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		w	) words;exit 0 ;;
+        o	) SOFILE=1 ;;
+        O	) SOFILE=1;OFILE=$OPTARG ;;
 	esac
 done
 
@@ -118,6 +126,11 @@ if [ -z "$DOMAIN" ]
         echo
 	print_domains 
 else
+    if [[ $SOFILE -eq 1 ]];then
+        if [ -z "$OFILE" ]; then
+            OFILE=${DOMAIN//./_}"_EXPORT.txt"
+        fi
+    fi
 	get_export
 fi
 
