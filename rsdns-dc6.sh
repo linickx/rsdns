@@ -81,10 +81,10 @@ if [ -z $HOST ]
     HOST="www.google.com"
 fi
 
-if ! ping -c 3 $HOST &>/dev/null  
+if ! ping6 -c 3 $HOST &>/dev/null  
 then 
 	if [[ $QUIET -eq 0 ]]; then
-		echo "The Internet is down, cannot ping $HOST"
+		echo "The Internet is down, cannot ping6 $HOST"
 	fi
 	exit
 fi
