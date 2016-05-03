@@ -339,9 +339,9 @@ Below is an example of my */etc/cron.d/rsdns-dc* crontab file which updates my I
     * */2  * * *     linickx /home/linickx/rsdns/rsdns-dc.sh -n dynamichost.linickx.com &>/dev/null
          
 
----
-
 *rsdns-dc6 is an IPv6 version; the usage is exactly the same as rsdns-dc*. To update both an A & AAAA record, run both scripts, as separate cron jobs.
+
+---
 
 ### _Creditz_ ###
 A big thank you [jsquared](http://jsquaredconsulting.com/blog) for publishing [rscurl](https://github.com/jsquared) as without it I would never have got started ;)  
