@@ -5,3 +5,4 @@
 * fyfe (Andrew Fyfe) #4 & #5
 * ehagerty (Ed Hagerty) #16
 * jgeromero () #22
+* chmac (Callum Macdonald) #26
