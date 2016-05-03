@@ -60,7 +60,7 @@ function get_export() {
                 
                 if [ "$JQ_DOMEXPORT_STATUS" == "COMPLETED" ]
                 then
-                    echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1'
+                    echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed 's/\\//g'
                     break
                 elif [ "$JQ_DOMEXPORT_STATUS" == "ERROR" ]; then
                     echo $DOMEXPORT | jq .
