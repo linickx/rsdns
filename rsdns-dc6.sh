@@ -52,7 +52,7 @@ function usage () {
 
 #prints words for master rsdns script output 
 function words () {
-	printf "Dynamic DNS Client for rackspace cloud DNS \n"
+	printf "Dynamic DNS Client for rackspace cloud DNS for IPv6 \n"
 }
 
 #Get options from the command line.
