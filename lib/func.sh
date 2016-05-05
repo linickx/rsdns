@@ -215,13 +215,27 @@ function rackspace_cloud() {
                 
                 if [ "$RC_STATUS" == "COMPLETED" ]
                 then
+					#echo $RC | jq .
+
 					if [[ $DEL -eq 1 ]]
 					then
-						#echo $RC | jq .
-						echo "Record $RECORDID deleted."
+						if [ -n "$RECORDID" ]
+						then
+							echo "Record $RECORDID deleted."
+						else 
+							echo "Domain $DOMAINID deleted."
+						fi
+						
 					else
-                    	echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+						if [ "$RCOUTPUT" == "domain" ]
+						then							
+							echo $RC | jq -r '(.response.domains[] | " ID: \(.id) | NAME: \(.name) | Account: \(.accountId) | TTL: \(.ttl) | EMAIL: \(.emailAddress) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+							echo $RC | jq -r '(.response.domains[] | " NAMESERVERS: \(.nameservers[].name)")'
+						else
+                    		echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+						fi
 					fi
+					
 					echo
                     break
                 elif [ "$RC_STATUS" == "ERROR" ]; then
