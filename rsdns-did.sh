@@ -41,7 +41,7 @@ do
 		a	) RSAPIKEY=$OPTARG ;;
 		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
-		i	) ID=$OPTARG ;;
+		i	) RECORDID=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
@@ -62,7 +62,7 @@ if [ -z $DOMAIN ]
     exit 1
 fi
 
-if [ -z $ID ]
+if [ -z $RECORDID ]
     then
     usage
     exit 1
@@ -89,7 +89,7 @@ fi
 # get the domain ID :)
 check_domain
 
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$ID|tr -s '[:cntrl:]' "\n"`
+  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
   
   if [[ $QUIET -eq 0 ]]; then
     echo $RC
