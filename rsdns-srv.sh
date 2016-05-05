@@ -22,7 +22,11 @@ fi
 #prints out the usage information on error or request.
 function usage () {
 	printf "\n"
-	printf "rsdns srv -u username -a apiKey -d domain -n name -D data -t TTL\n"
+	printf "rsdns srv -u username -a apiKey -d domain -n name -T targethost.domain.com -p priority -P port -W weight -t TTL\n"
+	printf "\t-p Priority (0 through 65535). Default 10\n"
+	printf "\t-T Target\n"
+	printf "\t-W Weight. Default 1\n"
+	printf "\t-P Port\n"
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
 	printf "\t-h Show this.\n"
@@ -39,6 +43,8 @@ function create_srv () {
 	if [ $FOUND -eq 1 ]
 	then
       
+      DATA="$WEIGHT $PORT $TARGET"
+      # echo $DATA
       RSPOST=`echo '{"records":[{ "type" : "SRV", "name" : "'$NAME'", "priority" : "'$PRIORITY'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
       
      create_record
@@ -60,7 +66,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:n:D:t:p::hkqxw" option
+while getopts "u:a:c:d:n:T:t:p:P:W::hkqxw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -68,8 +74,10 @@ do
 		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
-		D	) DATA=$OPTARG ;;
+		T	) TARGET=$OPTARG ;;
 		p	) PRIORITY=$OPTARG ;;
+		P	) PORT=$OPTARG ;;
+		W	) WEIGHT=$OPTARG ;;
 		t	) TTL=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
@@ -103,6 +111,11 @@ then
 	PRIORITY="10"
 fi
 
+if [ -z $WEIGHT ]
+then
+	WEIGHT="1"
+fi
+
 #All actions require authentication, get it done first.
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
@@ -126,6 +139,16 @@ if [ -n "$DEL" ]
 	then
 	delete_srv
 else
+    if [ -z $PORT ]
+        then
+        usage
+        exit 1
+    fi
+    if [ -z $TARGET ]
+        then
+        usage
+        exit 1
+    fi
 	create_srv
 fi
 
