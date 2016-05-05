@@ -261,7 +261,10 @@ Options:
 *  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
-*  -D data for the record
+*  -p priority
+*  -T target host (a record) for the record
+*  -P Port
+*  -W Weight
 *  -t TTL
 *  -x Delete a record
 *  -k use the UK (London) servers
@@ -269,7 +272,7 @@ Options:
 
 Usage:  
 TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
-`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -D "1 3443 sip.foo.com\"`  
+`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -T ip.foo.com -p 10 -P 5060 -W 11`  
 To delete a SRV record:  
 `./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -x` 
 
