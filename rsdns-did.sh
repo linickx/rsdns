@@ -24,6 +24,7 @@ function usage () {
 	printf "\n"
 	printf "rsdns did -u username -a apiKey -d domain -i id \n"
 	printf "\t-k Use London/UK Servers.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -34,7 +35,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:i::hkqxw" option
+while getopts "u:a:c:d:i::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -46,6 +47,7 @@ do
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
