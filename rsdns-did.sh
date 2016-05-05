@@ -89,6 +89,7 @@ fi
 # get the domain ID :)
 check_domain
 
+DEL=1
 delete_record
 
 #done

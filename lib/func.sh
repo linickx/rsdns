@@ -173,11 +173,9 @@ function delete_record() {
     get_recordid
   fi
 
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
+  RC=`curl -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
   
-  if [[ $QUIET -eq 0 ]]; then
-    echo $RC
-  fi
+  rackspace_cloud
   
 }
 
@@ -185,8 +183,13 @@ function create_record() {
 
     RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      #echo $RSPOST
-      
+    #echo $RSPOST
+
+    rackspace_cloud
+}
+
+function rackspace_cloud() {
+	      
 	  if [[ $RSJSON -eq 1 ]]; then
 		echo $RC
 		exit 0
@@ -212,7 +215,13 @@ function create_record() {
                 
                 if [ "$RC_STATUS" == "COMPLETED" ]
                 then
-                    echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+					if [[ $DEL -eq 1 ]]
+					then
+						#echo $RC | jq .
+						echo "Record $RECORDID deleted."
+					else
+                    	echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+					fi
 					echo
                     break
                 elif [ "$RC_STATUS" == "ERROR" ]; then
