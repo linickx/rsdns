@@ -142,3 +142,8 @@ if [ -z $UKAUTH ]
 then
   UKAUTH=0
 fi
+
+if [ -z $RSJSON ]
+then
+  RSJSON=0
+fi

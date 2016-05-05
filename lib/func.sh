@@ -184,8 +184,46 @@ function create_record() {
       
       #echo $RSPOST
       
-      if [[ $QUIET -eq 0 ]]; then
+	  if [[ $RSJSON -eq 1 ]]; then
 		echo $RC
+		exit 0
+      fi
+	  
+      if [[ $QUIET -eq 0 ]]; then
+		#echo $RC | jq .
+		
+		RC_STATUS=`echo $RC | jq .status | tr -d '"'`
+        echo "Job status is: $RC_STATUS"
+        
+        RC_CALLBACK=`echo $RC | jq .callbackUrl | tr -d '"'`
+		
+		if [ "$RC_STATUS" == "RUNNING" ]
+        then
+            while true; do
+
+                RC=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $RC_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
+                
+				RC_STATUS=`echo $RC | jq .status | tr -d '"'`
+		        echo "Job status is: $RC_STATUS"
+                echo 
+                
+                if [ "$RC_STATUS" == "COMPLETED" ]
+                then
+                    echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+					echo
+                    break
+                elif [ "$RC_STATUS" == "ERROR" ]; then
+                    echo $RC | jq .
+                    break
+                else
+                    echo "Sleeping...."
+                    sleep 1
+                fi
+            done
+        else
+             echo $RC | jq .
+        fi
+		
       fi
 
 }
