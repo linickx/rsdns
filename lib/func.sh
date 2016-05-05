@@ -168,8 +168,11 @@ function get_domain() {
 
 function delete_record() {
   
-  get_recordid
-  
+  if [ -z $RECORDID ]
+  then
+    get_recordid
+  fi
+
   RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
   
   if [[ $QUIET -eq 0 ]]; then
