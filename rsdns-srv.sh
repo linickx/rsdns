@@ -39,7 +39,7 @@ function create_srv () {
 	if [ $FOUND -eq 1 ]
 	then
       
-      RSPOST=`echo '{"records":[{ "type" : "SRV", "name" : "'$NAME'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
+      RSPOST=`echo '{"records":[{ "type" : "SRV", "name" : "'$NAME'", "priority" : "'$PRIORITY'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
       
      create_record
       
@@ -60,7 +60,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:n:D:t::hkqxw" option
+while getopts "u:a:c:d:n:D:t:p::hkqxw" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -69,6 +69,7 @@ do
 		d	) DOMAIN=$OPTARG ;;
 		n	) NAME=$OPTARG ;;
 		D	) DATA=$OPTARG ;;
+		p	) PRIORITY=$OPTARG ;;
 		t	) TTL=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
@@ -95,6 +96,11 @@ if [ -z $DOMAIN ]
     then
     usage
     exit 1
+fi
+
+if [ -z $PRIORITY ]
+then
+	PRIORITY="10"
 fi
 
 #All actions require authentication, get it done first.
