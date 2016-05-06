@@ -51,7 +51,7 @@ fi
 . tests/txt.sh
 
 ## NS Update
-./rdns ns -d $TESTDOMAIN -s dns1.stabletransit.com -S ns1.$TESTDOMAIN
+./rsdns ns -d $TESTDOMAIN -s dns1.stabletransit.com -S ns1.$TESTDOMAIN
 
 ## Export
 ./rsdns export -d $TESTDOMAIN
