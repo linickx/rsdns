@@ -1,6 +1,8 @@
 language: bash
-
+env:
+    secure: HrEfrzai5j4YBtSQmovxvrYTsvkXCgqmix4LeqtyxxJrYB2u7P7Me1KHrHAV0fBY/nY3ZKxepSMVeL+G9wPidPjOHIZcizue8PNsRq+nvfVdGpV7ZsA4NFM2km8Qu31sWbI7kshFoCl/bLuJ8v7pohvby3z0W8RU+pkzdrVER5E=
+before_script:
+- echo $TRAVIS_OS_NAME
+- ls
 script:
-    - echo $TRAVIS_OS_NAME
-    - ls
-    - jq --help
+- tests/run.sh
