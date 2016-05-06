@@ -25,6 +25,7 @@ if [ ! -f ~/.rsdns_config ]; then
 fi
 
 # Start tests
+./rsdns version
 
 ## Create a Test Domain
 ./rsdns domain -d $TESTDOMAIN -e travis@$TESTDOMAIN -t 600
