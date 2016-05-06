@@ -96,10 +96,10 @@ function curl_auth() {
 		read_token
 	else
 		if [[ $QUIET -eq 1 ]]; then
-			exit $EC
+			exit 100
 		fi
 		echo "Authentication Failed ($AUTH)"
-		exit $EC
+		exit 100
 	fi
 }
 

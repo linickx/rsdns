@@ -108,7 +108,7 @@ function check_domain() {
 		printf "\n" 
 		printf "Domain %s not found." $DOMAIN
 		printf "\n"
-		exit 98
+		exit 93
 	fi
 }
 
@@ -148,7 +148,7 @@ function get_recordid() {
 		printf "\n" 
 		printf "record for %s not found." $NAME
 		printf "\n"
-		exit 98
+		exit 92
 	fi
 
 }
@@ -250,6 +250,7 @@ function rackspace_cloud() {
                     break
                 elif [ "$RC_STATUS" == "ERROR" ]; then
                     echo $RC | jq .
+					exit 101
                     break
                 else
                     echo "Sleeping...."
@@ -258,6 +259,7 @@ function rackspace_cloud() {
             done
         else
              echo $RC | jq .
+			 exit 102
         fi
 		
       fi
@@ -276,7 +278,7 @@ function print_domains () {
 
 function check_dep() {
 	# http://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script
-	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 1; }
+	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 50; }
 }
 
 if [ -z $TTL ]

@@ -61,7 +61,7 @@ function update_ns() {
 		printf "\n" 
 		printf "record for %s not found." $OLDNS
 		printf "\n"
-		exit 98
+		exit 96
 	fi
 
 	# { "id" : "NS-123", "type" : "NS" "name" : "example.foo.com", "data" : "ns1.foo.com", "ttl" : 54000 }

@@ -22,7 +22,7 @@ else
   printf "\n"
   printf "auth.sh not found, please check you RSPATH"
   printf "\n"
-  exit
+  exit 95
 fi
 
 if [ -e $RSPATH/lib/func.sh ]
@@ -32,7 +32,7 @@ else
   printf "\n"
   printf "func.sh not found, please check you RSPATH"
   printf "\n"
-  exit
+  exit 95
 fi
 
 # Check for additional dependency
@@ -113,7 +113,7 @@ then
 		if [[ $QUIET -eq 0 ]]; then
 			echo Management Server does not exist.
 		fi
-		exit 98
+		exit 97
 	fi
 
 	# what domain does the host belong to?
