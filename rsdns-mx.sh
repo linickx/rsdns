@@ -128,7 +128,7 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 

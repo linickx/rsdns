@@ -61,14 +61,14 @@ function update_ns() {
 		printf "\n" 
 		printf "record for %s not found." $OLDNS
 		printf "\n"
-		exit 98
+		exit 96
 	fi
 
 	# { "id" : "NS-123", "type" : "NS" "name" : "example.foo.com", "data" : "ns1.foo.com", "ttl" : 54000 }
   
     RSPOST=`echo '{ "name" : "'$DOMAIN'", "data" : "'$NEWNS'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+      RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
     UPDATE=1
     rackspace_cloud

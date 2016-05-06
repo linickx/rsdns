@@ -71,7 +71,7 @@ function update_cn() {
   
       RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$CNAME'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+      RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
     rackspace_cloud
 
@@ -141,7 +141,7 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 if [ -n "$UPDATE" ]
