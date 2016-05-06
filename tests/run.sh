@@ -51,17 +51,27 @@ fi
 . tests/txt.sh
 
 ## NS Update
+echo "Updating NS record from dns1.stabletransit.com to ns1.$TESTDOMAIN"
 ./rsdns ns -d $TESTDOMAIN -s dns1.stabletransit.com -S ns1.$TESTDOMAIN
 
 ## Export
+echo "Exporting $TESTDOMAIN in bind format "
 ./rsdns export -d $TESTDOMAIN
+echo " --- "
 
 ## list
+echo "Listing..."
 ./rsdns list -d $TESTDOMAIN
+echo " --- "
+echo
 
 ## Dynamic Clients
+echo "DC - IPv4"
 ./rsdns-dc.sh -n arecord.$TESTDOMAIN
+echo "DC - IPv6"
 ./rsdns-dc6.sh -n aaaarecord.$TESTDOMAIN
+echo " --- "
+echo
 
 ## Delete by ID
 # 

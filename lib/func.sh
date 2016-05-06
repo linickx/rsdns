@@ -225,6 +225,7 @@ function rackspace_cloud() {
 						else 
 							echo "Domain $DOMAINID deleted."
 						fi
+						echo
 						exit
 					elif [[ $UPDATE -eq 1 ]]; then
 						if [ -n "$RECORDID" ]
@@ -233,6 +234,7 @@ function rackspace_cloud() {
 						else 
 							echo "Done."
 						fi
+						echo
 						exit
 					else
 						if [ "$RCOUTPUT" == "domain" ]
