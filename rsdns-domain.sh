@@ -45,7 +45,7 @@ if [ -z $EMAIL ]
   
   RCOUTPUT="domain"
   
-  RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+  RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
   #echo $RSPOST
   
@@ -57,7 +57,7 @@ function delete_domain() {
   
   check_domain
   
-  RC=`curl -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
+  RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
   
   rackspace_cloud
 }

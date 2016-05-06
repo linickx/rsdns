@@ -43,7 +43,7 @@ function get_export() {
 	if [ $FOUND -eq 1 ]
 	then
 
-        DOMEXPORT=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/export|tr -s '[:cntrl:]' "\n"`
+        DOMEXPORT=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/export|tr -s '[:cntrl:]' "\n"`
         
         JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
         echo "Job status is: $JQ_DOMEXPORT_STATUS"
@@ -54,7 +54,7 @@ function get_export() {
         then
             while true; do
 
-                DOMEXPORT=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $JQ_DOMEXPORT_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
+                DOMEXPORT=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $JQ_DOMEXPORT_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
                 
                 JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
                 echo "Job status is: $JQ_DOMEXPORT_STATUS"

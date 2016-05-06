@@ -42,7 +42,7 @@ check_dep "dig"
 #prints out the usage information on error or request.
 function usage () {
 	printf "\n"
-	printf "rscurl -n name \n"
+	printf "rsdns-dc.sh -n name \n"
 	printf "\t-h Show this.\n"
 	printf "\t-q Quiet.\n"
 	printf "\n"
@@ -90,7 +90,7 @@ then
 fi
 
 # get and set our current IP address
-IP=`curl -s -k http://ipv4.icanhazip.com`
+IP=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -s -k http://ipv4.icanhazip.com`
 
 # Check the RS DNS servers for the current A Record
 ARECORD=`dig @ns.rackspace.com +short -t a $NAME`
@@ -129,7 +129,7 @@ then
 	# POST!
 	RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'" }'`
   
-	RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+	RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
             
 	if [[ $QUIET -eq 0 ]]; then
 		echo $RC

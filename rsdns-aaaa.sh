@@ -74,7 +74,7 @@ function update_aaaa() {
   
       RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+      RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
     rackspace_cloud
 }
