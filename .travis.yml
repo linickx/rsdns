@@ -1,0 +1,9 @@
+language: bash
+
+addons:
+  apt:
+    packages:
+        - jq
+script:
+    - echo $TRAVIS_OS_NAME
+    - ls
