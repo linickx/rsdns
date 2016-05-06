@@ -6,7 +6,7 @@ before_script:
 script:
 - tests/run.sh
 env:
-  secure: "IGCXNwIgAdptqKhv6akHEPqvCYDyq2yVaAJBZrm2WFb5lT/vGNpfBXsWiE+IdfgHdmbPI9K3s/sW8qr6NdjoL1+HYZ9BKSMljd50Qx/RpH29PXpFwBe4TwlEKXs+RUK5xc3W1Ly6AvLd17WwTMwuuXN64+kWhzsQjOy/nji5hGg="
-  secure: "dq12JodJw1EdPrEnqjh0l/6lxcEy5lwuMFVc86D/T/E9B1Z04rdh7f2a0NOUj+Xj71fzxcrCGYLEHaZHifP3aUrQu7flwtLGvILCThHxQ+JbaHAd6XsZ1Wkw+LT+MrfRzcpq8kw5GTecIU832hY4f5XAly33IIo1Osh1+8n/lYM="
-  secure: "iKDyOm0axz8sU44FchdTazeCG0BCw3Ppx6tbB10tx6g9+lWTnOKet4RH3um3ymOJNbOF9w3pEKshTUkAAsuVEYGRnA7EjEK1/2TIiZFg3PeE2/oUiQXQvkFVqdFLFO1AJ86Rxm5RnUsP84FFZ0WNqxeCzc8p6JI9mWNkRM5+tKo="
-  secure: "ZY9hlRqgrLZ4QoR/+I9anAPAIlBPAPXZa9oK3ibHHkEnRdDvbYfCw/Qw7ZNLTyqtdHMmG0vQXJzobNvcuHdQm5ooz2rqPVWAPt5EPurHSVS96gtoyxEcUEf0U9dkDPTcnfpkV3XnlESBQ/mFkL4gtkifmrfHT5zU21ao9mR6s7s="
+  - secure: "IGCXNwIgAdptqKhv6akHEPqvCYDyq2yVaAJBZrm2WFb5lT/vGNpfBXsWiE+IdfgHdmbPI9K3s/sW8qr6NdjoL1+HYZ9BKSMljd50Qx/RpH29PXpFwBe4TwlEKXs+RUK5xc3W1Ly6AvLd17WwTMwuuXN64+kWhzsQjOy/nji5hGg="
+  - secure: "dq12JodJw1EdPrEnqjh0l/6lxcEy5lwuMFVc86D/T/E9B1Z04rdh7f2a0NOUj+Xj71fzxcrCGYLEHaZHifP3aUrQu7flwtLGvILCThHxQ+JbaHAd6XsZ1Wkw+LT+MrfRzcpq8kw5GTecIU832hY4f5XAly33IIo1Osh1+8n/lYM="
+  - secure: "iKDyOm0axz8sU44FchdTazeCG0BCw3Ppx6tbB10tx6g9+lWTnOKet4RH3um3ymOJNbOF9w3pEKshTUkAAsuVEYGRnA7EjEK1/2TIiZFg3PeE2/oUiQXQvkFVqdFLFO1AJ86Rxm5RnUsP84FFZ0WNqxeCzc8p6JI9mWNkRM5+tKo="
+  - secure: "ZY9hlRqgrLZ4QoR/+I9anAPAIlBPAPXZa9oK3ibHHkEnRdDvbYfCw/Qw7ZNLTyqtdHMmG0vQXJzobNvcuHdQm5ooz2rqPVWAPt5EPurHSVS96gtoyxEcUEf0U9dkDPTcnfpkV3XnlESBQ/mFkL4gtkifmrfHT5zU21ao9mR6s7s="
