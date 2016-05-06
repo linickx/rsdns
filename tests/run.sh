@@ -36,12 +36,17 @@ then
     exit 404
 fi
 
-## Execute A record tests
+## A record tests
 . tests/a.sh
-## Execute AAAA record tests
+## AAAA record tests
 . tests/aaaa.sh
-## Execute CNAME record tests
+## CNAME record tests
 . tests/cn.sh
+## MX record tests
+. tests/mx.sh
+
+## Export
+./rsdns export -d $TESTDOMAIN
 
 ## list
 ./rsdns list -d $TESTDOMAIN
@@ -50,6 +55,8 @@ fi
 ./rsdns-dc.sh -n arecord.$TESTDOMAIN
 ./rsdns-dc6.sh -n aaaarecord.$TESTDOMAIN
 
+## Delete by ID
+# 
 
 ## Clean up (Has to be LAST)
 . tests/delete.sh

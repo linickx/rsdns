@@ -9,6 +9,9 @@ $PWD/rdns a -x -d $TESTDOMAIN -n aaaarecord.$TESTDOMAIN
 # CNAME
 echo "Delete cn.$TESTDOMAIN"
 $PWD/rdns cn -x -d $TESTDOMAIN -n cn.$TESTDOMAIN
+# MX
+echo "Delete MX from $TESTDOMAIN"
+$PWD/rdns mx -x -d $TESTDOMAIN -n $TESTDOMAIN
 
 # Domain (Has to be LAST)
 echo "Delete domain $TESTDOMAIN"
