@@ -69,10 +69,8 @@ function update_ns() {
   
       RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
+    UPDATE=1
+    rackspace_cloud
 
 
 }
