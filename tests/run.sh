@@ -38,6 +38,8 @@ fi
 
 ## Execute A record tests
 . tests/a.sh
+## Execute AAAA record tests
+. tests/aaaa.sh
 
 ## list
 ./rsdns list -d $TESTDOMAIN
