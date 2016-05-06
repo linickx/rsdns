@@ -46,5 +46,10 @@ fi
 ## list
 ./rsdns list -d $TESTDOMAIN
 
+## Dynamic Clients
+./rsdns-dc.sh -n arecord.$TESTDOMAIN
+./rsdns-dc6.sh -n aaaarecord.$TESTDOMAIN
+
+
 ## Clean up (Has to be LAST)
 . tests/delete.sh
