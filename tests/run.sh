@@ -24,29 +24,6 @@ if [ ! -f ~/.rsdns_config ]; then
     echo "UKAUTH=$UKAUTH" >> ~/.rsdns_config 
 fi
 
-# Exit Codes
-## Standard
-# 0 = ok
-# 1 = Input/Var Missing
-# 
-## Custom from rsdns scipts
-# 102 = API Status Exception
-# 101 = API Status ERROR
-# 100 = API Authentication Failure (Key)
-# 98 = API Authentication Failure (Token)
-# 97 = API Authentication Failure (Management Server)
-# 96 = Record (to update) not found
-# 95 = Failed to load auth.sh
-# 94 = Failed to auth func.sh
-# 93 = Domain not found
-# 92 = Record not found
-#
-# 50 = Missing dependency
-#
-## Custom Exit Codes for tests
-# 404 = Domain Not Found
-# 400 = No Test DOMAIN Set
-
 # Start tests
 
 ## Create a Test Domain
