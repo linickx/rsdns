@@ -40,6 +40,8 @@ fi
 . tests/a.sh
 ## Execute AAAA record tests
 . tests/aaaa.sh
+## Execute CNAME record tests
+. tests/cn.sh
 
 ## list
 ./rsdns list -d $TESTDOMAIN
