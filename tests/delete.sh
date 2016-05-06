@@ -15,6 +15,9 @@ $PWD/rdns mx -x -d $TESTDOMAIN -n $TESTDOMAIN
 # SRV
 echo "Delete SRV _tcp._sip.$TESTDOMAIN"
 $PWD/rdns srv -x -d $TESTDOMAIN -n _tcp._sip.$TESTDOMAIN
+# TXT
+echo "Delete TXT from $TESTDOMAIN"
+$PWD/rdns txt -x -d $TESTDOMAIN -n $TESTDOMAIN
 
 # Domain (Has to be LAST)
 echo "Delete domain $TESTDOMAIN"

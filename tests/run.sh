@@ -44,8 +44,10 @@ fi
 . tests/cn.sh
 ## MX record tests
 . tests/mx.sh
-## MX record tests
+## SRV record tests
 . tests/srv.sh
+## TXT record tests
+. tests/txt.sh
 
 ## NS Update
 ./rdns ns -d $TESTDOMAIN -s dns1.stabletransit.com -S ns1.$TESTDOMAIN
