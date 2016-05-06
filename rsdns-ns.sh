@@ -26,6 +26,7 @@ function usage () {
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-c clientID (cloud sites only)\n"
 	printf "\t-h Show this.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\n"
 }
 
@@ -81,7 +82,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:s:S:t::hkqxw" option
+while getopts "u:a:c:d:s:S:t::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -96,6 +97,7 @@ do
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
