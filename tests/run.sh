@@ -45,6 +45,9 @@ fi
 ## MX record tests
 . tests/mx.sh
 
+## NS Update
+./rdns ns -d $TESTDOMAIN -s dns1.stabletransit.com -S ns1.$TESTDOMAIN
+
 ## Export
 ./rsdns export -d $TESTDOMAIN
 
