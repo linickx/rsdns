@@ -21,13 +21,13 @@ fi
 
 #prints out the usage information on error or request.
 function usage () {
-	printf "\n"
-	printf "rsdns mx -u username -a apiKey -d domain -n name -D data -p priority -t TTL\n"
-	printf "\t-k Use London/UK Servers.\n"
-	printf "\t-x Delete record.\n"
-	printf "\t-h Show this.\n"
-	printf "\t-J Output in JSON (raw RS API data)\n"
-	printf "\n"
+    printf "\n"
+    printf "rsdns mx -u username -a apiKey -d domain -n name -D data -p priority -t TTL\n"
+    printf "\t-k Use London/UK Servers.\n"
+    printf "\t-x Delete record.\n"
+    printf "\t-h Show this.\n"
+    printf "\t-J Output in JSON (raw RS API data)\n"
+    printf "\n"
 }
 
 
@@ -41,9 +41,9 @@ function create_mx () {
   fi
   
   check_domain
-	
-	if [ $FOUND -eq 1 ]
-	then
+    
+    if [ $FOUND -eq 1 ]
+    then
       
       RSPOST=`echo '{"records":[{ "priority" : '$PRIORITY',"type" : "MX", "name" : "'$NAME'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
       RCOUTPUT="mx"
@@ -65,40 +65,40 @@ function delete_mx() {
 
 #prints words for master rsdns script output 
 function words () {
-	printf "Manage mail exchange (MX) records \n"
+    printf "Manage mail exchange (MX) records \n"
 }
 
 #Get options from the command line.
 while getopts "u:a:c:d:n:D:p::hkqxwJ" option
 do
-	case $option in
-		u	) RSUSER=$OPTARG ;;
-		a	) RSAPIKEY=$OPTARG ;;
-		c	) USERID=$OPTARG ;;
-		d	) DOMAIN=$OPTARG ;;
-		n	) NAME=$OPTARG ;;
-		D	) DATA=$OPTARG ;;
-		p	) PRIORITY=$OPTARG ;;
-		t	) TTL=$OPTARG ;;
-		h	) usage;exit 0 ;;
-		q	) QUIET=1 ;;
-		k	) UKAUTH=1 ;;
-		x	) DEL=1 ;;
-		w	) words;exit 0 ;;
-		J	) RSJSON=1 ;;
-	esac
+    case $option in
+        u    ) RSUSER=$OPTARG ;;
+        a    ) RSAPIKEY=$OPTARG ;;
+        c    ) USERID=$OPTARG ;;
+        d    ) DOMAIN=$OPTARG ;;
+        n    ) NAME=$OPTARG ;;
+        D    ) DATA=$OPTARG ;;
+        p    ) PRIORITY=$OPTARG ;;
+        t    ) TTL=$OPTARG ;;
+        h    ) usage;exit 0 ;;
+        q    ) QUIET=1 ;;
+        k    ) UKAUTH=1 ;;
+        x    ) DEL=1 ;;
+        w    ) words;exit 0 ;;
+        J    ) RSJSON=1 ;;
+    esac
 done
 
 #Check for enough variables, print usage if not enough.
 if [ $# -lt 3 ]
-	then
-	usage
-	exit 1
+    then
+    usage
+    exit 1
 fi
 
 if [ -z $PRIORITY ]
 then
-	PRIORITY="10"
+    PRIORITY="10"
 fi
 
 if [ -z $NAME ]
@@ -117,26 +117,26 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Auth Token does not exist.
-	fi
-	exit 98
+    then 
+    if [[ $QUIET -eq 0 ]]; then
+        echo Auth Token does not exist.
+    fi
+    exit 98
 fi
 if test -z $MGMTSVR
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Management Server does not exist.
-	fi
-	exit 97
+    then 
+    if [[ $QUIET -eq 0 ]]; then
+        echo Management Server does not exist.
+    fi
+    exit 97
 fi
 
 
 if [ -n "$DEL" ]
-	then
-	delete_mx
+    then
+    delete_mx
 else
-	create_mx
+    create_mx
 fi
 
 #done

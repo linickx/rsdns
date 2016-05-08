@@ -8,7 +8,7 @@ fi
 
 if [ -z $TRAVIS_OS_NAME ]
 then
-	TESTDOMAIN="$MYDOMAIN"
+    TESTDOMAIN="$MYDOMAIN"
 else
     TESTDOMAIN="$TRAVIS_OS_NAME-travis-$MYDOMAIN"
 fi

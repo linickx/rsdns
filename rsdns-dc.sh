@@ -41,30 +41,30 @@ check_dep "dig"
 
 #prints out the usage information on error or request.
 function usage () {
-	printf "\n"
-	printf "rsdns-dc.sh -n name \n"
-	printf "\t-h Show this.\n"
-	printf "\t-q Quiet.\n"
-	printf "\n"
-	printf "PLEASE NOTE: You need a ~/.rsdns_config config file, see README.md for Help!"
-	printf "\n"
+    printf "\n"
+    printf "rsdns-dc.sh -n name \n"
+    printf "\t-h Show this.\n"
+    printf "\t-q Quiet.\n"
+    printf "\n"
+    printf "PLEASE NOTE: You need a ~/.rsdns_config config file, see README.md for Help!"
+    printf "\n"
 }
 
 #prints words for master rsdns script output 
 function words () {
-	printf "Dynamic DNS Client for rackspace cloud DNS \n"
+    printf "Dynamic DNS Client for rackspace cloud DNS \n"
 }
 
 #Get options from the command line.
 while getopts "n:H::hqw" option
 do
-	case $option in
-		n	) NAME=$OPTARG ;;
-		H	) HOST=$OPTARG ;;
-		h	) usage;exit 0 ;;
-		q	) QUIET=1 ;;
-		w	) words;exit 0 ;;
-	esac
+    case $option in
+        n    ) NAME=$OPTARG ;;
+        H    ) HOST=$OPTARG ;;
+        h    ) usage;exit 0 ;;
+        q    ) QUIET=1 ;;
+        w    ) words;exit 0 ;;
+    esac
 done
 
 # need a hostname.
@@ -83,10 +83,10 @@ fi
 
 if ! ping -c 3 $HOST &>/dev/null  
 then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo "The Internet is down, cannot ping $HOST"
-	fi
-	exit
+    if [[ $QUIET -eq 0 ]]; then
+        echo "The Internet is down, cannot ping $HOST"
+    fi
+    exit
 fi
 
 # get and set our current IP address
@@ -99,37 +99,37 @@ ARECORD=`dig @ns.rackspace.com +short -t a $NAME`
 if [ "$IP" != "$ARECORD" ];
 then
 
-	# Authenticate and get started
-	get_auth $RSUSER $RSAPIKEY
-	if test -z $TOKEN
-		then 
-		if [[ $QUIET -eq 0 ]]; then
-			echo Auth Token does not exist.
-		fi
-		exit 98
-	fi
-	if test -z $MGMTSVR
-		then 
-		if [[ $QUIET -eq 0 ]]; then
-			echo Management Server does not exist.
-		fi
-		exit 97
-	fi
+    # Authenticate and get started
+    get_auth $RSUSER $RSAPIKEY
+    if test -z $TOKEN
+        then 
+        if [[ $QUIET -eq 0 ]]; then
+            echo Auth Token does not exist.
+        fi
+        exit 98
+    fi
+    if test -z $MGMTSVR
+        then 
+        if [[ $QUIET -eq 0 ]]; then
+            echo Management Server does not exist.
+        fi
+        exit 97
+    fi
 
-	# what domain does the host belong to?
-	get_domain $NAME
+    # what domain does the host belong to?
+    get_domain $NAME
 
-	# set our record type
-	RECORDTYPE="A"
+    # set our record type
+    RECORDTYPE="A"
 
-	# find the record ID for our $NAME
-	get_recordid
-	# get_recordid will bail if $NAME is not found, this is to stop cron jobs from creating many many records.
+    # find the record ID for our $NAME
+    get_recordid
+    # get_recordid will bail if $NAME is not found, this is to stop cron jobs from creating many many records.
 
-	# POST!
-	RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'" }'`
+    # POST!
+    RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'" }'`
   
-	RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+    RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
     
     UPDATE=1
     rackspace_cloud

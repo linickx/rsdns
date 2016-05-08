@@ -21,15 +21,15 @@ fi
 
 #prints out the usage information on error or request.
 function usage () {
-	printf "\n"
-	printf "rsdns aaaa -u username -a apiKey -n name -i IP -t TTL\n"
-	printf "\t-d Set the domain name manually"
-	printf "\t-k Use London/UK Servers.\n"
-	printf "\t-x Delete record.\n"
-	printf "\t-U Update existing record.\n"
+    printf "\n"
+    printf "rsdns aaaa -u username -a apiKey -n name -i IP -t TTL\n"
+    printf "\t-d Set the domain name manually"
+    printf "\t-k Use London/UK Servers.\n"
+    printf "\t-x Delete record.\n"
+    printf "\t-U Update existing record.\n"
     printf "\t-J Output in JSON (raw RS API data)\n"
-	printf "\t-h Show this.\n"
-	printf "\n"
+    printf "\t-h Show this.\n"
+    printf "\n"
 }
 
 
@@ -42,13 +42,13 @@ function create_aaaa () {
     exit 1
   fi
 
- 	get_domain $NAME
+     get_domain $NAME
   
 
- 	check_domain
-	
-	if [ $FOUND -eq 1 ]
-	then
+     check_domain
+    
+    if [ $FOUND -eq 1 ]
+    then
       
       #RSPOST='{"records":[{ "type" : "AAAA", "name" : "b.test.linickx.co.uk", "data" : "4321:0:1:2:3:4:567:89ab", "ttl" : 86400 }]}'
       RSPOST=`echo '{"records":[{ "type" : "AAAA", "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }]}'`
@@ -91,35 +91,35 @@ function delete_aaaa () {
 
 #prints words for master rsdns script output 
 function words () {
-	printf "Manage AAAA records, host records for IPv6 \n"
+    printf "Manage AAAA records, host records for IPv6 \n"
 }
 
 #Get options from the command line.
 while getopts "u:a:c:d:n:i:t::hkqxUwJ" option
 do
-	case $option in
-		u	) RSUSER=$OPTARG ;;
-		a	) RSAPIKEY=$OPTARG ;;
-		c	) USERID=$OPTARG ;;
-		n	) NAME=$OPTARG ;;
-		d	) DOMAIN=$OPTARG ;;
-		i	) IP=$OPTARG ;;
-		t	) TTL=$OPTARG ;;
-		h	) usage;exit 0 ;;
-		q	) QUIET=1 ;;
-		k	) UKAUTH=1 ;;
-		x	) DEL=1 ;;
-		U	) UPDATE=1 ;;
-		w	) words;exit 0 ;;
-		J	) RSJSON=1 ;;
-	esac
+    case $option in
+        u    ) RSUSER=$OPTARG ;;
+        a    ) RSAPIKEY=$OPTARG ;;
+        c    ) USERID=$OPTARG ;;
+        n    ) NAME=$OPTARG ;;
+        d    ) DOMAIN=$OPTARG ;;
+        i    ) IP=$OPTARG ;;
+        t    ) TTL=$OPTARG ;;
+        h    ) usage;exit 0 ;;
+        q    ) QUIET=1 ;;
+        k    ) UKAUTH=1 ;;
+        x    ) DEL=1 ;;
+        U    ) UPDATE=1 ;;
+        w    ) words;exit 0 ;;
+        J    ) RSJSON=1 ;;
+    esac
 done
 
 #Check for enough variables, print usage if not enough.
 if [ $# -lt 2 ]
-	then
-	usage
-	exit 1
+    then
+    usage
+    exit 1
 fi
 
 if [ -z $NAME ]
@@ -132,18 +132,18 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Auth Token does not exist.
-	fi
-	exit 98
+    then 
+    if [[ $QUIET -eq 0 ]]; then
+        echo Auth Token does not exist.
+    fi
+    exit 98
 fi
 if test -z $MGMTSVR
-	then 
-	if [[ $QUIET -eq 0 ]]; then
-		echo Management Server does not exist.
-	fi
-	exit 97
+    then 
+    if [[ $QUIET -eq 0 ]]; then
+        echo Management Server does not exist.
+    fi
+    exit 97
 fi
 
 if [ -n "$UPDATE" ]
@@ -152,10 +152,10 @@ if [ -n "$UPDATE" ]
 fi
 
 if [ -n "$DEL" ]
-	then
-	delete_aaaa
+    then
+    delete_aaaa
 else
-	create_aaaa
+    create_aaaa
 fi
 
 #done

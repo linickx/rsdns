@@ -6,30 +6,30 @@
 FILELOCATION=$0
 while readlink "$FILELOCATION" > /dev/null
 do
-	FILELOCATION=$(readlink "$FILELOCATION")
+    FILELOCATION=$(readlink "$FILELOCATION")
 done
 
 LOCATION=$(dirname "$FILELOCATION")
 COMMAND=$1
 if [ "$COMMAND" ]
 then
-	shift
-	$LOCATION/rsdns-$COMMAND.sh $@
+    shift
+    $LOCATION/rsdns-$COMMAND.sh $@
 else
-	printf "\n"
-	printf "Use the -h switch for details on how to use each sub command \n"
-	printf "e.g. rsdns a -h \n"
-	printf "\n"
-	printf "Available commands: \n"
-	printf "\n"
+    printf "\n"
+    printf "Use the -h switch for details on how to use each sub command \n"
+    printf "e.g. rsdns a -h \n"
+    printf "\n"
+    printf "Available commands: \n"
+    printf "\n"
 
-	cd $LOCATION
-	(
-		for COMMAND in $(ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/")
-		do
-			echo -n " $COMMAND | "
-			./rsdns-$COMMAND.sh -w
-		done
-	) | column -t -s '|'
-	printf "\n"
+    cd $LOCATION
+    (
+        for COMMAND in $(ls rsdns-*.sh | sed "s/rsdns-\(.*\)\.sh/  \1/")
+        do
+            echo -n " $COMMAND | "
+            ./rsdns-$COMMAND.sh -w
+        done
+    ) | column -t -s '|'
+    printf "\n"
 fi
