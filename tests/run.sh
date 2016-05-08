@@ -3,7 +3,7 @@
 if [ -z $MYDOMAIN ]
 then
     echo "No Test DOMAIN Set"
-    exit 400
+    exit 40
 fi
 
 if [ -z $TRAVIS_OS_NAME ]
@@ -34,7 +34,7 @@ RESULT=`rsdns list | grep $TESTDOMAIN | awk -F ' | ' '{ print $3 }'`
 if [ "$RESULT" != "$TESTDOMAIN" ]
 then
     echo "Domain $TESTDOMAIN not found"
-    exit 404
+    exit 44
 fi
 
 ## A record tests

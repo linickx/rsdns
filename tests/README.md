@@ -48,5 +48,5 @@ The following is a list of exit codes to describe build failure.
 * 50 = Missing dependency
 
 ### Custom Exit Codes for tests
-* 404 = Domain Not Found
-* 400 = No Test Domain Set i.e. `$MYDOMAIN` missing.
+* 44 = Domain Not Found
+* 40 = No Test Domain Set i.e. `$MYDOMAIN` missing.
