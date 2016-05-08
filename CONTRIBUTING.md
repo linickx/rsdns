@@ -31,4 +31,8 @@ Please ask if you have any problems with these.
 
 English is my native language but that doesn't mean I'm perfect at it, inspection and suggestions from the grammar police are welcome.
 
+## AoB
+
+* The whitespace in `rsdns` is managed by [EditorConfig](http://editorconfig.org)
+
 ## Thanks for reading!
