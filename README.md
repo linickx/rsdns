@@ -4,8 +4,6 @@ RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns]
 
 **Requires** - bash, curl, awk, sed & [jq](http://stedolan.github.io/jq/) ( __+dig for the dhcp client__ )
 
-> v2 API
-
 ## $PATH ##
 
 The rsdns scripts have been designed to be called independently so that administrators can batch process DNS record management. Typing commands like "rsdns-list.sh" aren't very user friendly, for the one off *typed by hand* activities  a "master script" called `rsdns` exists.  
@@ -69,6 +67,7 @@ Options:
 *  -t TTL
 *  -x Delete a domain
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:
@@ -111,6 +110,7 @@ Options:
 *  -x Delete a record
 *  -U Update an existing record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -141,6 +141,7 @@ Options:
 *  -x Delete a record
 *  -U Update an existing record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -168,6 +169,7 @@ Options:
 *  -x Delete a record
 *  -U Update an existing record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -192,6 +194,7 @@ Options:
 *  -d domain name
 *  -i redord ID
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -215,6 +218,7 @@ Options:
 *  -t TTL
 *  -x Delete a record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -241,6 +245,7 @@ Options:
 *  -t TTL
 *  -x Delete a record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -261,15 +266,19 @@ Options:
 *  -c client ID (for cloud sites users)
 *  -d domain for the record
 *  -n name for the record
-*  -D data for the record
+*  -p priority
+*  -T target host (a record) for the record
+*  -P Port
+*  -W Weight
 *  -t TTL
 *  -x Delete a record
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
 TXT records can be used to create SPF & DKIM records, below is an example to create an SPF record.  
-`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -D "1 3443 sip.foo.com\"`  
+`./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -T ip.foo.com -p 10 -P 5060 -W 11`  
 To delete a SRV record:  
 `./rsdns-srv.sh -u linickx -a 123456 -d linickx.com -n _tcp._sip.linickx.com -x` 
 
@@ -287,6 +296,7 @@ Options:
 *  -S new name server
 *  -t TTL
 *  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
 *  -h help
 
 Usage:  
@@ -340,6 +350,13 @@ Below is an example of my */etc/cron.d/rsdns-dc* crontab file which updates my I
          
 
 *rsdns-dc6 is an IPv6 version; the usage is exactly the same as rsdns-dc*. To update both an A & AAAA record, run both scripts, as separate cron jobs.
+
+## Legacy Output (-J for JSON) ##
+
+Early versions of `rsdns` would submit the API request and finish with a JSON output; this had two disadvantages firstly, it wasn't clear to humans what the command had done and secondly the status of asynchronous requests/changes were not checked or reported back (*everything had a status of RUNNING*
+    ). If you have used `rsdns` in an external script and relying on the JSON output then add the `-J` switch to get the old response back. 
+
+*IMPORTANT NOTE* : `rsdns` now supports pagination, if you have more than 99 domains then the JSON response from the script will be corrupt with `Downloading...` printed  in the output as the pagination response from the API is processed. 
 
 ---
 

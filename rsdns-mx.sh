@@ -26,6 +26,7 @@ function usage () {
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
 	printf "\t-h Show this.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\n"
 }
 
@@ -45,6 +46,7 @@ function create_mx () {
 	then
       
       RSPOST=`echo '{"records":[{ "priority" : '$PRIORITY',"type" : "MX", "name" : "'$NAME'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
+      RCOUTPUT="mx"
       
      create_record
       
@@ -67,7 +69,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:n:D:p::hkqxw" option
+while getopts "u:a:c:d:n:D:p::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -83,6 +85,7 @@ do
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
@@ -125,7 +128,7 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 

@@ -26,6 +26,7 @@ function usage () {
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-c clientID (cloud sites only)\n"
 	printf "\t-h Show this.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\n"
 }
 
@@ -60,19 +61,17 @@ function update_ns() {
 		printf "\n" 
 		printf "record for %s not found." $OLDNS
 		printf "\n"
-		exit 98
+		exit 96
 	fi
 
 	# { "id" : "NS-123", "type" : "NS" "name" : "example.foo.com", "data" : "ns1.foo.com", "ttl" : 54000 }
   
     RSPOST=`echo '{ "name" : "'$DOMAIN'", "data" : "'$NEWNS'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+      RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
+    UPDATE=1
+    rackspace_cloud
 
 
 }
@@ -83,7 +82,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:s:S:t::hkqxw" option
+while getopts "u:a:c:d:s:S:t::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -98,6 +97,7 @@ do
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 

@@ -14,7 +14,7 @@ function get_domains() {
 	fi
 	
 	#  Curl response in JSON
-	jDOMAINS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains?limit=$RSLIMIT`
+	jDOMAINS=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains?limit=$RSLIMIT`
 	PAGSTATUS0=`echo $jDOMAINS | jq -r .links[0].rel` &>/dev/null
 	
 	if [ "$PAGSTATUS0" == "next" ]
@@ -30,12 +30,12 @@ function get_domains() {
 			if [ "$PAGSTATUS0" == "next" ]
 			then
 				NEXTURL=`echo $jDOMAINSp | jq -r .links[].href`
-				jDOMAINSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jDOMAINSp=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
 				#echo $jDOMAINSp
 				jDOMAINS+=$jDOMAINSp
 			elif [ "$PAGSTATUS0" == "previous" ]; then
 				NEXTURL=`echo $jDOMAINSp | jq -r .links[1].href`
-				jDOMAINSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jDOMAINSp=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
 				#echo $jDOMAINSp
 				jDOMAINS+=$jDOMAINSp
 			else
@@ -50,7 +50,7 @@ function get_domains() {
 }
 
 function get_records() {
-    jRECORDS=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records?limit=$RSLIMIT`
+    jRECORDS=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/records?limit=$RSLIMIT`
 	PAGSTATUS0=`echo $jRECORDS | jq -r .links[0].rel` &>/dev/null
 	
 	if [ "$PAGSTATUS0" == "next" ]
@@ -65,11 +65,11 @@ function get_records() {
 			if [ "$PAGSTATUS0" == "next" ]
 			then
 				NEXTURL=`echo $jRECORDSp | jq -r .links[].href`
-				jRECORDSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jRECORDSp=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
 				jRECORDS+=$jRECORDSp
 			elif [ "$PAGSTATUS0" == "previous" ]; then
 				NEXTURL=`echo $jRECORDSp | jq -r .links[1].href`
-				jRECORDSp=`curl -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
+				jRECORDSp=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $NEXTURL`
 				jRECORDS+=$jRECORDSp
 			else
 				break
@@ -108,7 +108,7 @@ function check_domain() {
 		printf "\n" 
 		printf "Domain %s not found." $DOMAIN
 		printf "\n"
-		exit 98
+		exit 93
 	fi
 }
 
@@ -148,7 +148,7 @@ function get_recordid() {
 		printf "\n" 
 		printf "record for %s not found." $NAME
 		printf "\n"
-		exit 98
+		exit 92
 	fi
 
 }
@@ -168,24 +168,102 @@ function get_domain() {
 
 function delete_record() {
   
-  get_recordid
-  
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
-  
-  if [[ $QUIET -eq 0 ]]; then
-    echo $RC
+  if [ -z $RECORDID ]
+  then
+    get_recordid
   fi
+
+  RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID|tr -s '[:cntrl:]' "\n"`
+  
+  rackspace_cloud
   
 }
 
 function create_record() {
 
-    RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+    RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      #echo $RSPOST
-      
-      if [[ $QUIET -eq 0 ]]; then
+    #echo $RSPOST
+
+    rackspace_cloud
+}
+
+function rackspace_cloud() {
+	      
+	  if [[ $RSJSON -eq 1 ]]; then
 		echo $RC
+		exit 0
+      fi
+	  
+      if [[ $QUIET -eq 0 ]]; then
+		#echo $RC | jq .
+		
+		RC_STATUS=`echo $RC | jq .status | tr -d '"'`
+        echo "Job status is: $RC_STATUS"
+        
+        RC_CALLBACK=`echo $RC | jq .callbackUrl | tr -d '"'`
+		
+		if [ "$RC_STATUS" == "RUNNING" ]
+        then
+            while true; do
+
+                RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $RC_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
+                
+				RC_STATUS=`echo $RC | jq .status | tr -d '"'`
+		        echo "Job status is: $RC_STATUS"
+                echo 
+                
+                if [ "$RC_STATUS" == "COMPLETED" ]
+                then
+					#echo $RC | jq .
+
+					if [[ $DEL -eq 1 ]]
+					then
+						if [ -n "$RECORDID" ]
+						then
+							echo "Record $RECORDID deleted."
+						else 
+							echo "Domain $DOMAINID deleted."
+						fi
+						echo
+						exit
+					elif [[ $UPDATE -eq 1 ]]; then
+						if [ -n "$RECORDID" ]
+						then
+							echo "Record $RECORDID updated."
+						else 
+							echo "Done."
+						fi
+						echo
+						exit
+					else
+						if [ "$RCOUTPUT" == "domain" ]
+						then							
+							echo $RC | jq -r '(.response.domains[] | " ID: \(.id) | NAME: \(.name) | Account: \(.accountId) | TTL: \(.ttl) | EMAIL: \(.emailAddress) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+							echo $RC | jq -r '(.response.domains[] | " NAMESERVERS: \(.nameservers[].name)")'
+						elif [[ "$RCOUTPUT" == "mx" ]]; then
+							echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | PRIORITY: \(.priority) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+						else
+                    		echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
+						fi
+					fi
+					
+					echo
+                    break
+                elif [ "$RC_STATUS" == "ERROR" ]; then
+                    echo $RC | jq .
+					exit 101
+                    break
+                else
+                    echo "Sleeping...."
+                    sleep 1
+                fi
+            done
+        else
+             echo $RC | jq .
+			 exit 102
+        fi
+		
       fi
 
 }
@@ -202,7 +280,7 @@ function print_domains () {
 
 function check_dep() {
 	# http://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script
-	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 1; }
+	type $1 >/dev/null 2>&1 || { echo >&2 "I require $1 but it's not installed.  Aborting."; exit 50; }
 }
 
 if [ -z $TTL ]

@@ -27,6 +27,7 @@ function usage () {
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete record.\n"
 	printf "\t-U Update existing record.\n"
+    printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -73,14 +74,9 @@ function update_a() {
   
       RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }'`
   
-      RC=`curl -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+      RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
-
-
+    rackspace_cloud
 }
 
 function delete_a () {
@@ -99,7 +95,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:n:i:t::hkqxUw" option
+while getopts "u:a:c:d:n:i:t::hkqxUwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -115,6 +111,7 @@ do
 		x	) DEL=1 ;;
 		U	) UPDATE=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
@@ -146,7 +143,7 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 if [ -n "$UPDATE" ]

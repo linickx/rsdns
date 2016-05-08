@@ -88,7 +88,7 @@ function curl_auth() {
 	fi
 
 	# http://stackoverflow.com/questions/2220301/how-to-evaluate-http-response-codes-from-bash-shell-script
-	AUTH=`curl --write-out %{http_code} -s -o $AUTHFILE -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
+	AUTH=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" --write-out %{http_code} -s -o $AUTHFILE -H "Content-Type: application/json" -d "{ \"auth\": { \"RAX-KSKEY:apiKeyCredentials\": { \"username\":\"$RSUSER\",\"apiKey\":\"$RSAPIKEY\" } } }" $AUTHSVR`
 
 	chmod 600 $AUTHFILE
 
@@ -96,10 +96,10 @@ function curl_auth() {
 		read_token
 	else
 		if [[ $QUIET -eq 1 ]]; then
-			exit $EC
+			exit 100
 		fi
 		echo "Authentication Failed ($AUTH)"
-		exit $EC
+		exit 100
 	fi
 }
 
@@ -141,4 +141,9 @@ fi
 if [ -z $UKAUTH ]
 then
   UKAUTH=0
+fi
+
+if [ -z $RSJSON ]
+then
+  RSJSON=0
 fi

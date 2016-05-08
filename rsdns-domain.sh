@@ -26,6 +26,7 @@ function usage () {
 	printf "\t-k Use London/UK Servers.\n"
 	printf "\t-x Delete domain.\n"
 	printf "\t-h Show this.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\n"
 }
 
@@ -42,13 +43,13 @@ if [ -z $EMAIL ]
   # {"domains":[{"name":"example.com","ttl":86400,"emailAddress":"me@example.com"}]}
   RSPOST=`echo '{"domains":[{ "name" : "'$DOMAIN'", "emailAddress" : "'$EMAIL'", "ttl" : '$TTL' }]}'`
   
-   RC=`curl -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
+  RCOUTPUT="domain"
+  
+  RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
       
-      #echo $RSPOST
-      
-      if [[ $QUIET -eq 0 ]]; then
-		echo $RC
-      fi
+  #echo $RSPOST
+  
+  rackspace_cloud
 
 }
 
@@ -56,12 +57,9 @@ function delete_domain() {
   
   check_domain
   
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
+  RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
   
-  if [[ $QUIET -eq 0 ]]; then
-    echo $RC
-  fi
-  
+  rackspace_cloud
 }
 
 #prints words for master rsdns script output 
@@ -70,7 +68,7 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:e:t::hkqxw" option
+while getopts "u:a:c:d:e:t::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
@@ -84,6 +82,7 @@ do
 		k	) UKAUTH=1 ;;
 		x	) DEL=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
@@ -115,7 +114,7 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 

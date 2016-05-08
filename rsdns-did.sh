@@ -24,6 +24,7 @@ function usage () {
 	printf "\n"
 	printf "rsdns did -u username -a apiKey -d domain -i id \n"
 	printf "\t-k Use London/UK Servers.\n"
+	printf "\t-J Output in JSON (raw RS API data)\n"
 	printf "\t-h Show this.\n"
 	printf "\n"
 }
@@ -34,18 +35,19 @@ function words () {
 }
 
 #Get options from the command line.
-while getopts "u:a:c:d:i::hkqxw" option
+while getopts "u:a:c:d:i::hkqxwJ" option
 do
 	case $option in
 		u	) RSUSER=$OPTARG ;;
 		a	) RSAPIKEY=$OPTARG ;;
 		c	) USERID=$OPTARG ;;
 		d	) DOMAIN=$OPTARG ;;
-		i	) ID=$OPTARG ;;
+		i	) RECORDID=$OPTARG ;;
 		h	) usage;exit 0 ;;
 		q	) QUIET=1 ;;
 		k	) UKAUTH=1 ;;
 		w	) words;exit 0 ;;
+		J	) RSJSON=1 ;;
 	esac
 done
 
@@ -62,7 +64,7 @@ if [ -z $DOMAIN ]
     exit 1
 fi
 
-if [ -z $ID ]
+if [ -z $RECORDID ]
     then
     usage
     exit 1
@@ -83,17 +85,14 @@ if test -z $MGMTSVR
 	if [[ $QUIET -eq 0 ]]; then
 		echo Management Server does not exist.
 	fi
-	exit 98
+	exit 97
 fi
 
 # get the domain ID :)
 check_domain
 
-  RC=`curl -k -s -X DELETE -D - -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$ID|tr -s '[:cntrl:]' "\n"`
-  
-  if [[ $QUIET -eq 0 ]]; then
-    echo $RC
-  fi
+DEL=1
+delete_record
 
 #done
 exit 0
