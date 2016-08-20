@@ -25,12 +25,12 @@ if [ ! -f ~/.rsdns_config ]; then
 fi
 
 # Start tests
-./rsdns version
+$PWD/rsdns version
 
 ## Create a Test Domain
-./rsdns domain -d $TESTDOMAIN -e travis@$TESTDOMAIN -t 600
+$PWD/rsdns domain -d $TESTDOMAIN -e travis@$TESTDOMAIN -t 600
 
-RESULT=`rsdns list | grep $TESTDOMAIN | awk -F ' | ' '{ print $3 }'`
+RESULT=`$PWD/rsdns list | grep $TESTDOMAIN | awk -F ' | ' '{ print $3 }'`
 if [ "$RESULT" != "$TESTDOMAIN" ]
 then
     echo "Domain $TESTDOMAIN not found"
