@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# rsdns-export.sh - Used to export domains 
+# rsdns-export.sh - Used to export domains
 #
 
 # config file for variables.
@@ -30,36 +30,36 @@ function usage () {
     printf "\n"
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Export domains in bind format \n"
 }
 
 #
 function get_export() {
-    
+
     check_domain
 
     if [ $FOUND -eq 1 ]
     then
 
         DOMEXPORT=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $DNSSVR/$USERID/domains/$DOMAINID/export|tr -s '[:cntrl:]' "\n"`
-        
+
         JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
         echo "Job status is: $JQ_DOMEXPORT_STATUS"
-        
-        JQ_DOMEXPORT_CALLBACK=`echo $DOMEXPORT | jq .callbackUrl | tr -d '"'` 
-        
+
+        JQ_DOMEXPORT_CALLBACK=`echo $DOMEXPORT | jq .callbackUrl | tr -d '"'`
+
         if [ "$JQ_DOMEXPORT_STATUS" == "RUNNING" ]
         then
             while true; do
 
                 DOMEXPORT=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X GET -H X-Auth-Token:\ $TOKEN $JQ_DOMEXPORT_CALLBACK?showDetails=true|tr -s '[:cntrl:]' "\n"`
-                
+
                 JQ_DOMEXPORT_STATUS=`echo $DOMEXPORT | jq .status | tr -d '"'`
                 echo "Job status is: $JQ_DOMEXPORT_STATUS"
-                echo 
-                
+                echo
+
                 if [ "$JQ_DOMEXPORT_STATUS" == "COMPLETED" ]
                 then
                     if [ -n "$OFILE" ]; then
@@ -104,14 +104,14 @@ done
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi
@@ -124,7 +124,7 @@ if [ -z "$DOMAIN" ]
         echo "Which domain do you want to export?"
         echo "use the -d switch"
         echo
-    print_domains 
+    print_domains
 else
     if [[ $SOFILE -eq 1 ]];then
         if [ -z "$OFILE" ]; then

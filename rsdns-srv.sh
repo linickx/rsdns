@@ -40,28 +40,28 @@ function create_srv () {
 
 
   check_domain
-    
+
     if [ $FOUND -eq 1 ]
     then
-      
+
       DATA="$WEIGHT $PORT $TARGET"
       # echo $DATA
       RSPOST=`echo '{"records":[{ "type" : "SRV", "name" : "'$NAME'", "priority" : "'$PRIORITY'", "data" : "'$DATA'", "ttl" : '$TTL' }]}'`
-      
+
      create_record
-      
+
     fi
 }
 
 function delete_srv() {
- 
+
   RECORDTYPE="SRV"
 
   delete_record
-  
+
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Manage service (SRV) records \n"
 }
@@ -122,14 +122,14 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi

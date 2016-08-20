@@ -50,7 +50,7 @@ function usage () {
     printf "\n"
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Dynamic DNS Client for rackspace cloud DNS for IPv6 \n"
 }
@@ -81,8 +81,8 @@ if [ -z $HOST ]
     HOST="www.google.com"
 fi
 
-if ! ping6 -c 3 $HOST &>/dev/null  
-then 
+if ! ping6 -c 3 $HOST &>/dev/null
+then
     if [[ $QUIET -eq 0 ]]; then
         echo "The Internet is down, cannot ping6 $HOST"
     fi
@@ -102,14 +102,14 @@ then
     # Authenticate and get started
     get_auth $RSUSER $RSAPIKEY
     if test -z $TOKEN
-        then 
+        then
         if [[ $QUIET -eq 0 ]]; then
             echo Auth Token does not exist.
         fi
         exit 98
     fi
-    if test -z $MGMTSVR
-        then 
+    if test -z "$MGMTSVR"
+        then
         if [[ $QUIET -eq 0 ]]; then
             echo Management Server does not exist.
         fi
@@ -128,9 +128,9 @@ then
 
     # POST!
     RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'" }'`
-  
+
     RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
-            
+
     UPDATE=1
     rackspace_cloud
 fi
