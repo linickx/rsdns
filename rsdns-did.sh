@@ -29,7 +29,7 @@ function usage () {
     printf "\n"
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Delete records by ID \n"
 }
@@ -74,14 +74,14 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi

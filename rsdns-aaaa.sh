@@ -43,18 +43,18 @@ function create_aaaa () {
   fi
 
      get_domain $NAME
-  
+
 
      check_domain
-    
+
     if [ $FOUND -eq 1 ]
     then
-      
+
       #RSPOST='{"records":[{ "type" : "AAAA", "name" : "b.test.linickx.co.uk", "data" : "4321:0:1:2:3:4:567:89ab", "ttl" : 86400 }]}'
       RSPOST=`echo '{"records":[{ "type" : "AAAA", "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }]}'`
-      
+
       create_record
-  
+
     fi
 }
 
@@ -67,29 +67,29 @@ function update_aaaa() {
   fi
 
   get_domain $NAME
-  
+
   RECORDTYPE="AAAA"
-  
+
   get_recordid
-  
+
       RSPOST=`echo '{ "name" : "'$NAME'", "data" : "'$IP'", "ttl" : '$TTL' }'`
-  
+
       RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
-      
+
     rackspace_cloud
 }
 
 function delete_aaaa () {
 
   get_domain $NAME
-  
+
   RECORDTYPE="AAAA"
 
   delete_record
 
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Manage AAAA records, host records for IPv6 \n"
 }
@@ -132,14 +132,14 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi

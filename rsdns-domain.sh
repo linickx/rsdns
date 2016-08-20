@@ -42,27 +42,27 @@ if [ -z $EMAIL ]
 
   # {"domains":[{"name":"example.com","ttl":86400,"emailAddress":"me@example.com"}]}
   RSPOST=`echo '{"domains":[{ "name" : "'$DOMAIN'", "emailAddress" : "'$EMAIL'", "ttl" : '$TTL' }]}'`
-  
+
   RCOUTPUT="domain"
-  
+
   RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X POST -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/ --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
-      
+
   #echo $RSPOST
-  
+
   rackspace_cloud
 
 }
 
 function delete_domain() {
-  
+
   check_domain
-  
+
   RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X DELETE -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID|tr -s '[:cntrl:]' "\n"`
-  
+
   rackspace_cloud
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Create & delete domains hosted by rackspace cloud DNS \n"
 }
@@ -103,14 +103,14 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi

@@ -37,46 +37,46 @@ function update_ns() {
     RECORDTYPE="NS"
 
     get_records
-   
+
     FOUND=0
-   
-    
+
+
     for i in `echo $RECORDS | awk -F, 'BEGIN { RS = ";" } ; {print}' `
     do
         i=`echo $i | grep $RECORDTYPE`
-    
+
         iNAME=`echo $i  | awk -F "\"*,\"*" '{print $4}'`
 
         iRECORDID=`echo $i  | awk -F "\"*,\"*" '{print $2}'`
-        
+
         if [ "$iNAME" == "$OLDNS" ]
         then
             FOUND=1
             RECORDID=$iRECORDID
         fi
     done
-    
+
     if [ $FOUND -eq 0 ]
     then
-        printf "\n" 
+        printf "\n"
         printf "record for %s not found." $OLDNS
         printf "\n"
         exit 96
     fi
 
     # { "id" : "NS-123", "type" : "NS" "name" : "example.foo.com", "data" : "ns1.foo.com", "ttl" : 54000 }
-  
+
     RSPOST=`echo '{ "name" : "'$DOMAIN'", "data" : "'$NEWNS'", "ttl" : '$TTL' }'`
-  
+
       RC=`curl -A "rsdns/$RSDNS_VERSION (https://github.com/linickx/rsdns)" -k -s -X PUT -H X-Auth-Token:\ $TOKEN -H Content-Type:\ application/json  -H Accept:\ application/json $DNSSVR/$USERID/domains/$DOMAINID/records/$RECORDID --data "$RSPOST" |tr -s '[:cntrl:]' "\n"`
-      
+
     UPDATE=1
     rackspace_cloud
 
 
 }
 
-#prints words for master rsdns script output 
+#prints words for master rsdns script output
 function words () {
     printf "Manage domain name server (NS) records \n"
 }
@@ -130,14 +130,14 @@ fi
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
 if test -z $TOKEN
-    then 
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Auth Token does not exist.
     fi
     exit 98
 fi
-if test -z $MGMTSVR
-    then 
+if test -z "$MGMTSVR"
+    then
     if [[ $QUIET -eq 0 ]]; then
         echo Management Server does not exist.
     fi
