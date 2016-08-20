@@ -6,3 +6,4 @@
 * ehagerty (Ed Hagerty) #16
 * jgeromero () #22
 * chmac (Callum Macdonald) #26
+* adregner (Andrew Regner) #34
