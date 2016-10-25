@@ -1,6 +1,6 @@
 # RSDNS Tools [![Build Status](https://travis-ci.org/linickx/rsdns.svg?branch=master)](https://travis-ci.org/linickx/rsdns)
 
-RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns](http://www.rackspace.com/cloud/cloud_hosting_products/dns/) [api](http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/index.html).
+RSDNS tools are (_will be_) a set of shell scripts for the [rackspace cloud dns](http://www.rackspace.com/cloud/cloud_hosting_products/dns/) [api](https://developer.rackspace.com/docs/cloud-dns/v1/).
 
 **Requires** - bash, curl, awk, sed & [jq](http://stedolan.github.io/jq/) ( __+dig for the dhcp client__ )
 
