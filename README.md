@@ -325,6 +325,25 @@ Usage:
 To export a domain  
 `./rsdns-export.sh -u linickx -a 123456 -d linickx.com -O ~/Desktop/export.txt`
 
+### rsdns-show.sh ###
+
+RSDNS Show (by ID). 
+This provides a way to view, show the record details, such as the updated/created timestamps
+
+Options:
+
+*  -u username
+*  -a api key
+*  -c client ID (for cloud sites users)
+*  -d domain name
+*  -i record ID
+*  -k use the UK (London) servers
+*  -J Output in JSON (raw RS API data)
+*  -h help
+
+Usage:  
+To delete a record:  
+`./rsdns-show.sh -u linickx -a 123456 -d www.linickx.com -i MX-1234`  
 
 ## Dynamic DNS Client ##
 

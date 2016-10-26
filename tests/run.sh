@@ -73,8 +73,12 @@ echo "DC - IPv6"
 echo " --- "
 echo
 
+TESTRECORDID=`./rsdns a -d $TESTDOMAIN -n idrecord.$TESTDOMAIN -i 1.2.3.4 | grep "ID: A-" | tr -d '[[:space:]]'`
+
+## Show (by ID)
+./rsdns show -d $TESTDOMAIN -i ${TESTRECORDID:3}
 ## Delete by ID
-# 
+./rsdns did -d $TESTDOMAIN -i ${TESTRECORDID:3}
 
 ## Clean up (Has to be LAST)
 . tests/delete.sh
