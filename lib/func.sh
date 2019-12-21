@@ -132,8 +132,8 @@ function get_recordid() {
 
         if [ "$iTYPE" == "$RECORDTYPE" ]
         then
-            iNAME=`echo $i  | awk -F "|" '{print $1}'`
-            iRECORDID=`echo $i  | awk -F "|" '{print $2}'`
+            iNAME=`echo $i  | awk -F "|" '{print $2}'`
+            iRECORDID=`echo $i  | awk -F "|" '{print $1}'`
         fi
 
         if [ "$iNAME" == "$NAME" ]
