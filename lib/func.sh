@@ -240,7 +240,6 @@ function rackspace_cloud() {
                         if [ "$RCOUTPUT" == "domain" ]
                         then                            
                             echo $RC | jq -r '(.response.domains[] | " ID: \(.id) | NAME: \(.name) | Account: \(.accountId) | TTL: \(.ttl) | EMAIL: \(.emailAddress) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
-                            echo $RC | jq -r '(.response.domains[] | " NAMESERVERS: \(.nameservers[].name)")'
                         elif [[ "$RCOUTPUT" == "mx" ]]; then
                             echo $RC | jq -r '(.response.records[] | " ID: \(.id) | TYPE: \(.type) | NAME: \(.name) | DATA: \(.data) | PRIORITY: \(.priority) | TTL: \(.ttl) | CREATED: \(.created) | UPDATED: \(.updated)")' | tr -s '|' "\n"
                         else
