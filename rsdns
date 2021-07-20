@@ -14,7 +14,7 @@ COMMAND=$1
 if [ "$COMMAND" ]
 then
     shift
-    $LOCATION/rsdns-$COMMAND.sh $@
+    $LOCATION/rsdns-$COMMAND.sh "$@"
 else
     printf "\n"
     printf "Use the -h switch for details on how to use each sub command \n"
