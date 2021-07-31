@@ -64,9 +64,9 @@ function get_export() {
                 then
                     if [ -n "$OFILE" ]; then
                         printf "\n \t Export will be written to: $OFILE \n\n"
-                        echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed 's/\\//g' > $OFILE
+                        echo $DOMEXPORT | jq -r .response.contents > $OFILE
                     fi
-                    echo $DOMEXPORT | jq .response.contents | tr -d '"' | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed 's/\\//g'
+                    echo $DOMEXPORT | jq -r .response.contents
                     break
                 elif [ "$JQ_DOMEXPORT_STATUS" == "ERROR" ]; then
                     echo $DOMEXPORT | jq .
