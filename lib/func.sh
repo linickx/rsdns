@@ -46,7 +46,7 @@ function get_domains() {
     fi
 
     # Legacy variable/response for backward compatability
-    DOMAINS=`echo $jDOMAINS |tr -s '[:cntrl:]' "\n" |sed -e 's/{"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`    
+    DOMAINS=`echo $jDOMAINS |tr -s '[:cntrl:]' "\n" |sed -e 's/"domains":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"accountId"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/{"totalEntries":[0-9]*,//g'`
 }
 
 function get_records() {
@@ -79,7 +79,7 @@ function get_records() {
     fi
     #echo $jRECORDS | jq .
 
-    RECORDS=`echo $jRECORDS |tr -s '[:cntrl:]' "\n"| sed -e 's/{"records":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"type"://g' -e 's/"data"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/"totalEntries"://g'`
+    RECORDS=`echo $jRECORDS |tr -s '[:cntrl:]' "\n"| sed -e 's/"records":\[{//' -e 's/}\]}//' -e 's/},{/;/g' -e 's/"name"://g' -e 's/"id"://g' -e 's/"type"://g' -e 's/"data"://g' -e 's/"updated"://g' -e 's/"created"://g' -e 's/{"totalEntries":[0-9]*,//g'`
 }
 
 function check_domain() {
