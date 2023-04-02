@@ -120,7 +120,7 @@ function get_recordid() {
    
    FOUND=0
 
-    for i in `echo $RECORDS | awk -F, 'BEGIN { RS = ";" } { gsub(/\"/,"") ; print $1 "|" $2 "|" $3 "|" $4 }'`
+    for i in `echo $RECORDS | awk -F, 'BEGIN { RS = ";" } { gsub(/"/,"") ; print $1 "|" $2 "|" $3 "|" $4 }'`
     do
     
         if [ "$RECORDTYPE" == "MX" ]
